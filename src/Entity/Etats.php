@@ -8,12 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
  * Etats
  *
  * @ORM\Table(name="etats")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\EtatsRepository")
  */
 class Etats
 {
     /**
-     * @var int
      *
      * @ORM\Column(name="no_etat", type="integer", nullable=false)
      * @ORM\Id
@@ -22,7 +21,6 @@ class Etats
     private $noEtat;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="libelle", type="string", length=30, nullable=false)
      */
