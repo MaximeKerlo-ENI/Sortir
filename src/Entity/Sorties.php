@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Sorties
  *
  * @ORM\Table(name="sorties", indexes={@ORM\Index(name="sorties_sites_fk", columns={"sites_no_site"}), @ORM\Index(name="sorties_lieux_fk", columns={"lieux_no_lieu"}), @ORM\Index(name="sorties_participants_fk", columns={"organisateur"}), @ORM\Index(name="sorties_etats_fk", columns={"etats_no_etat"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\SortiesRepository")
  */
 class Sorties
 {

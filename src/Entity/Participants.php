@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\Sites;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Participants
  *
  * @ORM\Table(name="participants", uniqueConstraints={@ORM\UniqueConstraint(name="participants_pseudo_uk", columns={"pseudo"})}, indexes={@ORM\Index(name="participants_sites_fk", columns={"sites_no_site"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ParticipantsRepository")
  */
 class Participants
 {

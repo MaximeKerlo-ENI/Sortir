@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Etats{% endblock %}
+
+{% block body %}
+    <h1>Create new Etats</h1>
+
+    {{ include('etats/_form.html.twig') }}
+
+    <a href="{{ path('app_etats_index') }}">back to list</a>
+{% endblock %}

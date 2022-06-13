@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sites index{% endblock %}
+
+{% block body %}
+    <h1>Sites index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>NoSite</th>
+                <th>NomSite</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for site in sites %}
+            <tr>
+                <td>{{ site.noSite }}</td>
+                <td>{{ site.nomSite }}</td>
+                <td>
+                    <a href="{{ path('app_sites_show', {'noSite': site.noSite}) }}">show</a>
+                    <a href="{{ path('app_sites_edit', {'noSite': site.noSite}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_sites_new') }}">Create new</a>
+{% endblock %}
