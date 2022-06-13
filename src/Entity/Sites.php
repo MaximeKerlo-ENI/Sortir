@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Sites
 {
     /**
-     * @var int
      *
      * @ORM\Column(name="no_site", type="integer", nullable=false)
      * @ORM\Id
@@ -21,7 +20,6 @@ class Sites
     private $noSite;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="nom_site", type="string", length=30, nullable=false)
      */
