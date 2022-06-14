@@ -16,10 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
     class MainController extends AbstractController{
 
         /**
-        * @Route("/",name="app_home")
+        * @Route("/",name="app_accueil")
         */
-        public function index(): Response
-        {
-            return $this->render("layouts/base.html.twig");
+        public function liste(SortiesRepository $sr):Response{
+            return $this->render("sorties/liste.html.twig",
+            ["sorties"=>$sr->findAll()]);
         }
     }
