@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lieux index{% endblock %}
+
+{% block body %}
+    <h1>Lieux index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>NoLieu</th>
+                <th>NomLieu</th>
+                <th>Rue</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for lieux in lieuxes %}
+            <tr>
+                <td>{{ lieux.noLieu }}</td>
+                <td>{{ lieux.nomLieu }}</td>
+                <td>{{ lieux.rue }}</td>
+                <td>{{ lieux.latitude }}</td>
+                <td>{{ lieux.longitude }}</td>
+                <td>
+                    <a href="{{ path('app_lieux_show', {'noLieu': lieux.noLieu}) }}">show</a>
+                    <a href="{{ path('app_lieux_edit', {'noLieu': lieux.noLieu}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_lieux_new') }}">Create new</a>
+{% endblock %}

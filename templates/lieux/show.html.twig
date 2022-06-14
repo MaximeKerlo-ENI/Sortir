@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lieux{% endblock %}
+
+{% block body %}
+    <h1>Lieux</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>NoLieu</th>
+                <td>{{ lieux.noLieu }}</td>
+            </tr>
+            <tr>
+                <th>NomLieu</th>
+                <td>{{ lieux.nomLieu }}</td>
+            </tr>
+            <tr>
+                <th>Rue</th>
+                <td>{{ lieux.rue }}</td>
+            </tr>
+            <tr>
+                <th>Latitude</th>
+                <td>{{ lieux.latitude }}</td>
+            </tr>
+            <tr>
+                <th>Longitude</th>
+                <td>{{ lieux.longitude }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_lieux_index') }}">back to list</a>
+
+    <a href="{{ path('app_lieux_edit', {'noLieu': lieux.noLieu}) }}">edit</a>
+
+    {{ include('lieux/_delete_form.html.twig') }}
+{% endblock %}
