@@ -8,11 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
  * Villes
  *
  * @ORM\Table(name="villes")
- * @ORM\Entity(repositoryClass="App\Repository\VillesRepository")
+ * @ORM\Entity
  */
 class Villes
 {
     /**
+     * @var int
      *
      * @ORM\Column(name="no_ville", type="integer", nullable=false)
      * @ORM\Id
@@ -21,12 +22,14 @@ class Villes
     private $noVille;
 
     /**
+     * @var string
      *
      * @ORM\Column(name="nom_ville", type="string", length=30, nullable=false)
      */
     private $nomVille;
 
     /**
+     * @var string
      *
      * @ORM\Column(name="code_postal", type="string", length=10, nullable=false)
      */
