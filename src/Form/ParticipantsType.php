@@ -18,6 +18,7 @@ class ParticipantsType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('mail')
+            ->add('participant', ParticipantsType::class)
         ;
     }
 

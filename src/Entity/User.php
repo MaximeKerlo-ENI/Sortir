@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -42,6 +43,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $participantId;
 
+     /**
+     * @Assert\Type(type="App\Entity\Participants")
+     * @Assert\Valid
+     */
+    protected $participant;
 
     public function getId(): ?int
     {
@@ -164,6 +170,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->participantId = $participantId;
 
         return $this;
+    }
+
+    public function getParticipant(): ?Participants
+    {
+        return $this->participant;
+    }
+
+    public function setCategory(?Participants $participant)
+    {
+        $this->participant = $participant;
     }
 
 }
