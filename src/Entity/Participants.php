@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormTypeInterface;
 /**
  * Participants
  *
- * @ORM\Table(name="participants", uniqueConstraints={@ORM\UniqueConstraint(name="participants_pseudo_uk", columns={"pseudo"})}, indexes={@ORM\Index(name="participants_sites_fk", columns={"sites_no_site"})})
+ * @ORM\Table(name="participants", indexes={@ORM\Index(name="participants_sites_fk", columns={"sites_no_site"})})
  * @ORM\Entity
  */
 class Participants
@@ -23,13 +23,6 @@ class Participants
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $noParticipant;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="pseudo", type="string", length=30, nullable=false)
-     */
-    private $pseudo;
 
     /**
      * @var string
@@ -58,13 +51,6 @@ class Participants
      * @ORM\Column(name="mail", type="string", length=20, nullable=false)
      */
     private $mail;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="mot_de_passe", type="string", length=20, nullable=false)
-     */
-    private $motDePasse;
 
     /**
      * @var bool
@@ -98,6 +84,12 @@ class Participants
     private $sortiesNoSortie;
 
     /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="participantId", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $userNoUser;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -108,18 +100,6 @@ class Participants
     public function getNoParticipant(): ?int
     {
         return $this->noParticipant;
-    }
-
-    public function getPseudo(): ?string
-    {
-        return $this->pseudo;
-    }
-
-    public function setPseudo(string $pseudo): self
-    {
-        $this->pseudo = $pseudo;
-
-        return $this;
     }
 
     public function getNom(): ?string
@@ -166,18 +146,6 @@ class Participants
     public function setMail(string $mail): self
     {
         $this->mail = $mail;
-
-        return $this;
-    }
-
-    public function getMotDePasse(): ?string
-    {
-        return $this->motDePasse;
-    }
-
-    public function setMotDePasse(string $motDePasse): self
-    {
-        $this->motDePasse = $motDePasse;
 
         return $this;
     }
@@ -244,5 +212,18 @@ class Participants
 
         return $this;
     }
+
+    public function getUserNoUser(): ?User
+    {
+        return $this->userNoUser;
+    }
+
+    public function setUserNoUser(User $userNoUser): self
+    {
+        $this->userNoUser = $userNoUser;
+
+        return $this;
+    }
+
 
 }

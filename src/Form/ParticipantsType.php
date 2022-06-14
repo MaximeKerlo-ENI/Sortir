@@ -14,20 +14,10 @@ class ParticipantsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('pseudo')
             ->add('nom')
             ->add('prenom')
             ->add('telephone')
             ->add('mail')
-            ->add('motDePasse')
-            ->add('administrateur')
-            ->add('actif')
-            ->add('sitesNoSite',EntityType::class,[
-                "class"=>Sites::class,
-                "choice_label"=>function ($sitesNoSite) {
-                    return $sitesNoSite->getNomSite();
-                }
-                ])
         ;
     }
 
