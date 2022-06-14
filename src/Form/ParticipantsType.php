@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Participants;
+use App\Entity\Sites;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,8 +22,12 @@ class ParticipantsType extends AbstractType
             ->add('motDePasse')
             ->add('administrateur')
             ->add('actif')
-            ->add('sitesNoSite')
-            ->add('sortiesNoSortie')
+            ->add('sitesNoSite',EntityType::class,[
+                "class"=>Sites::class,
+                "choice_label"=>function ($sitesNoSite) {
+                    return $sitesNoSite->getNomSite();
+                }
+                ])
         ;
     }
 
