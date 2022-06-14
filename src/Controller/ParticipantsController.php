@@ -26,7 +26,7 @@ class ParticipantsController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_participants_new", methods={"GET", "POST"})
+     * @Route("/inscription", name="app_inscription", methods={"GET", "POST"})
      */
     public function new(Request $request, ParticipantsRepository $participantsRepository): Response
     {
