@@ -1,4 +1,52 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{# {{ form_start(sortieForm) }} #}
+
+<div class="row">
+  <div class="col s6">
+    {{ form_row(sortieForm.nom) }}
+    {{ form_row(sortieForm.datedebut) }}
+    {{ form_row(sortieForm.datecloture) }}
+    {{ form_row(sortieForm.nbinscriptionsmax) }}
+    {{ form_row(sortieForm.duree) }}
+    {{ form_row(sortieForm.descriptioninfos) }}
+  </div>
+
+  <div class="col s6">
+    {# <label for="participant_ville">Ville organisatrice :</label>
+    <input
+      id="participant_ville"
+      type="text"
+      name="site_id"
+      placeholder="{{ participant.getSitesNoSite().getNomSite() }}"
+      disabled
+    /> #}
+
+
+    {# <a href="{{ path('app_sorties_new') }}">nouvelle sortie</a> #}
+
+
+    {# <a
+      href="{{ path('lieu') }}"
+      class="btn-floating btn-large waves-effect waves-light red"
+      ><i class="material-icons">add</i></a
+    > #}
+
+    {{ form_row(sortieForm.lieuxNoLieu) }}
+    {# <label>Code postal : {{ form_row(ville.getCodePostal) }}</label> #}
+    {# {{ form_row(sortieForm.lieuxNoLieu.latitude) }}
+    {{ form_row(sortieForm.lieuxNoLieu.longitude) }} #}
+  </div>
+</div>
+
+<button type="submit" class="btn">
+  {{ button_label|default('Enregistrer') }}
+</button>
+<button type="submit" class="btn">
+  {{ button_label|default('Publier la sortie') }}
+</button>
+<a
+  class="btn"
+  href="{{ path('app_accueil') }}"
+  >{{ button_label|default('Annuler') }}</a
+>
+
+{# {{ form_end(sortieForm) }} #}
