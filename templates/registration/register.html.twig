@@ -1,0 +1,23 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block main %}
+    <h1>Register</h1>
+
+    <h3>Participant</h3>
+    <div class="participant">
+        
+    </div>
+        {{ form_row(registrationForm.participant.nom) }}
+        {{ form_row(registrationForm.participant.prenom) }}
+        {{ form_row(registrationForm.participant.mail) }}
+        {{ form_row(registrationForm.pseudo) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn">Register</button>
+{% endblock %}
