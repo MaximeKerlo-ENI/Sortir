@@ -2,71 +2,65 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Repository\ParticipantsRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Participants
- *
- * @ORM\Table(name="participants", indexes={@ORM\Index(name="participants_sites_fk", columns={"sites_no_site"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=ParticipantsRepository::class)
  */
-class Participants
+class Participants implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="no_participant", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(name="no_participant", type="integer")
      */
     private $noParticipant;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=30, nullable=false)
+     * @ORM\Column(type="string", length=180, unique=true)
+     */
+    private $pseudo;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
+    /**
+     * @ORM\Column(type="string", length=30)
      */
     private $nom;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="prenom", type="string", length=30, nullable=false)
+     * @ORM\Column(type="string", length=30)
      */
     private $prenom;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="telephone", type="string", length=15, nullable=true)
+     * @ORM\Column(type="string", length=15)
      */
     private $telephone;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="mail", type="string", length=20, nullable=false)
+     * @ORM\Column(type="string", length=20)
      */
     private $mail;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="administrateur", type="boolean", nullable=false)
-     */
-    private $administrateur;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="actif", type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      */
     private $actif;
 
-    /**
+     /**
      * @var Sites
      *
      * @ORM\ManyToOne(targetEntity="Sites")
@@ -76,30 +70,94 @@ class Participants
      */
     private $sitesNoSite;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Sorties", mappedBy="participantsNoParticipant")
-     */
-    private $sortiesNoSortie;
-
-    /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="participantId", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $userNoUser;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->sortiesNoSortie = new ArrayCollection();
-    }
 
     public function getNoParticipant(): ?int
     {
         return $this->noParticipant;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->pseudo;
+    }
+
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->pseudo;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getNom(): ?string
@@ -131,7 +189,7 @@ class Participants
         return $this->telephone;
     }
 
-    public function setTelephone(?string $telephone): self
+    public function setTelephone(string $telephone): self
     {
         $this->telephone = $telephone;
 
@@ -146,18 +204,6 @@ class Participants
     public function setMail(string $mail): self
     {
         $this->mail = $mail;
-
-        return $this;
-    }
-
-    public function isAdministrateur(): ?bool
-    {
-        return $this->administrateur;
-    }
-
-    public function setAdministrateur(bool $administrateur): self
-    {
-        $this->administrateur = $administrateur;
 
         return $this;
     }
@@ -185,45 +231,5 @@ class Participants
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, Sorties>
-     */
-    public function getSortiesNoSortie(): Collection
-    {
-        return $this->sortiesNoSortie;
-    }
-
-    public function addSortiesNoSortie(Sorties $sortiesNoSortie): self
-    {
-        if (!$this->sortiesNoSortie->contains($sortiesNoSortie)) {
-            $this->sortiesNoSortie[] = $sortiesNoSortie;
-            $sortiesNoSortie->addParticipantsNoParticipant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSortiesNoSortie(Sorties $sortiesNoSortie): self
-    {
-        if ($this->sortiesNoSortie->removeElement($sortiesNoSortie)) {
-            $sortiesNoSortie->removeParticipantsNoParticipant($this);
-        }
-
-        return $this;
-    }
-
-    public function getUserNoUser(): ?User
-    {
-        return $this->userNoUser;
-    }
-
-    public function setUserNoUser(User $userNoUser): self
-    {
-        $this->userNoUser = $userNoUser;
-
-        return $this;
-    }
-
 
 }
