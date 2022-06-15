@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Sorties
  *
- * @ORM\Table(name="sorties", indexes={@ORM\Index(name="sorties_sites_fk", columns={"sites_no_site"}), @ORM\Index(name="sorties_lieux_fk", columns={"lieux_no_lieu"}), @ORM\Index(name="sorties_etats_fk", columns={"etats_no_etat"}), @ORM\Index(name="sorties_participants_fk", columns={"organisateur"})})
+ * @ORM\Table(name="sorties", indexes={@ORM\Index(name="sorties_lieux_fk", columns={"lieux_no_lieu"}), @ORM\Index(name="sorties_etats_fk", columns={"etats_no_etat"}), @ORM\Index(name="sorties_participants_fk", columns={"organisateur"})})
  * @ORM\Entity
  */
 class Sorties
@@ -78,16 +78,6 @@ class Sorties
      * @ORM\Column(name="urlPhoto", type="string", length=250, nullable=true)
      */
     private $urlphoto;
-
-    /**
-     * @var Sites
-     *
-     * @ORM\ManyToOne(targetEntity="Sites")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sites_no_site", referencedColumnName="no_site")
-     * })
-     */
-    private $sitesNoSite;
 
     /**
      * @var Etats
@@ -240,18 +230,6 @@ class Sorties
     public function setUrlphoto(?string $urlphoto): self
     {
         $this->urlphoto = $urlphoto;
-
-        return $this;
-    }
-
-    public function getSitesNoSite(): ?Sites
-    {
-        return $this->sitesNoSite;
-    }
-
-    public function setSitesNoSite(?Sites $sitesNoSite): self
-    {
-        $this->sitesNoSite = $sitesNoSite;
 
         return $this;
     }
