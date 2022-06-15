@@ -1,4 +1,44 @@
 {# {{ form_start(sortieForm) }} #}
+<style>
+  .btn {
+    margin: 40px !important;
+  }
+  .btn-floating{
+    margin-left: 40px;
+  }
+  .parent {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+  }
+
+  .div1 {
+    grid-area: 1 / 1 / 2 / 6;
+  }
+  .div2 {
+    grid-area: 2 / 1 / 3 / 5;
+  }
+  .div3 {
+    grid-area: 3 / 1 / 4 / 5;
+  }
+  .div4 {
+    grid-area: 3 / 5 / 4 / 6;
+  }
+  .div5 {
+    grid-area: 4 / 1 / 5 / 6;
+  }
+  .div6 {
+    grid-area: 5 / 1 / 6 / 6;
+  }
+  .div7 {
+    grid-area: 6 / 1 / 7 / 5;
+  }
+  .div8 {
+    grid-area: 7 / 1 / 8 / 5;
+  }
+</style>
 
 <div class="row">
   <div class="col s6">
@@ -11,42 +51,54 @@
   </div>
 
   <div class="col s6">
-    {# <label for="participant_ville">Ville organisatrice :</label>
-    <input
-      id="participant_ville"
-      type="text"
-      name="site_id"
-      placeholder="{{ participant.getSitesNoSite().getNomSite() }}"
-      disabled
-    /> #}
-
-
-    {# <a href="{{ path('app_sorties_new') }}">nouvelle sortie</a> #}
-
-
-    {# <a
-      href="{{ path('lieu') }}"
-      class="btn-floating btn-large waves-effect waves-light red"
-      ><i class="material-icons">add</i></a
-    > #}
-
-    {{ form_row(sortieForm.lieuxNoLieu) }}
-    {# <label>Code postal : {{ form_row(ville.getCodePostal) }}</label> #}
-    {# {{ form_row(sortieForm.lieuxNoLieu.latitude) }}
-    {{ form_row(sortieForm.lieuxNoLieu.longitude) }} #}
+    <div class="parent">
+      <div class="div1"><label for="">Ville organisatrice </label></div>
+      <div class="div2">
+        <label for="">Ville </label
+        ><select name="" id="">
+          <option>Ville</option>
+        </select>
+      </div>
+      <div class="div3">{{ form_row(sortieForm.lieuxNoLieu) }}</div>
+      <div class="div4">
+        <a href="" class="btn-floating btn-large waves-effect waves-light red"
+          ><i class="material-icons">add</i></a
+        >
+      </div>
+      <div class="div5"><label for="">Rue </label></div>
+      <div class="div6"><label for="">Code postal </label></div>
+      <div class="div7">
+        <label for="">Latitude </label><input type="text" class="disabled" />
+      </div>
+      <div class="div8">
+        <label for="">Longitude </label><input type="text" class="disabled" />
+      </div>
+    </div>
   </div>
+  {# {{ form_row(sortieForm.participantsNoParticipant.nomSite) }} #} {#
+  <a href="{{ path('app_sorties_new') }}">nouvelle sortie</a> #} {#
+  <a
+    href="{{ path('lieu') }}"
+    class="btn-floating btn-large waves-effect waves-light red"
+    ><i class="material-icons">add</i></a
+  >
+  #} {# <label>Code postal : {{ form_row(ville.getCodePostal) }}</label> #} {#
+  {{ form_row(sortieForm.lieuxNoLieu.latitude) }}
+  {{ form_row(sortieForm.lieuxNoLieu.longitude) }} #}
 </div>
 
-<button type="submit" class="btn">
-  {{ button_label|default('Enregistrer') }}
-</button>
-<button type="submit" class="btn">
-  {{ button_label|default('Publier la sortie') }}
-</button>
-<a
-  class="btn"
-  href="{{ path('app_accueil') }}"
-  >{{ button_label|default('Annuler') }}</a
->
+<div class="center">
+  <button type="submit" class="btn">
+    {{ button_label|default('Enregistrer') }}
+  </button>
+  <button type="submit" class="btn">
+    {{ button_label|default('Publier la sortie') }}
+  </button>
+  <a
+    class="btn"
+    href="{{ path('app_accueil') }}"
+    >{{ button_label|default('Annuler') }}</a
+  >
+</div>
 
 {# {{ form_end(sortieForm) }} #}
