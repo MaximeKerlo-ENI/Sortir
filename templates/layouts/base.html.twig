@@ -1,4 +1,4 @@
-{% set menu = ["Accueil","Inscription","Connexion"] %}
+{% set menu = ["Accueil"] %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" integrity="sha512-UJfAaOlIRtdR+0P6C3KUoTDAxVTuy3lnSXLyLKlHYJlcSU8Juge/mjeaxDNMlw9LgeIotgz5FP8eUQPhX1q10A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css" integrity="sha512-t38vG/f94E72wz6pCsuuhcOPJlHKwPy+PY+n1+tJFzdte3hsIgYE7iEpgg/StngunGszVMrRfvwZinrza0vMTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>{% block titre %} Blog Dev {% endblock %}</title>
+    <title>{% block title %} Blog Dev {% endblock %}</title>
 
 </head>
 
@@ -18,7 +18,7 @@
 
     {% include ("layouts/header.html.twig") %}
 
-    <main>
+    <main class="container">
         {% block main %}
 
         {% endblock %}

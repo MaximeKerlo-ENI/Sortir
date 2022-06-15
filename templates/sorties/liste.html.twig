@@ -1,15 +1,16 @@
 {% extends "layouts/base.html.twig" %}
 
-{% block titre %}
+{% block title %}
 Accueil
 {% endblock %}
 
 {% block main %}
-<div class="container col row right-align">
+<div class="col row right-align">
     <p>Date du jour : {{"now"|date("d/m/Y")}}</p>
-    {# if app.user
-    <p>Participant : {{ user.nom }}</p>
-    endif #}
+    {% if app.user %}
+        <p>Participant : {{ app.user.userIdentifier }}</p>
+        <a href="{{ path('app_logout') }}">Déconnexion</a>
+    {% endif %}
 
     <div class="container row col s4 left-align">
         <h5>Filtrer les sorties</h5>
@@ -92,7 +93,7 @@ Accueil
 </div>
 {% if app.user %}
 <div class="container row">
-    <a class="waves-effect waves-light green lighten-1 btn left-align" href="">Créer une sortie</a>
+    <a class="waves-effect waves-light green lighten-1 btn left-align" href="{{ path('app_sorties_new') }}">Créer une sortie</a>
 </div>
 {% endif %}
 {% endblock %}
