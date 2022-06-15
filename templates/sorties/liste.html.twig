@@ -76,10 +76,10 @@ Accueil
             {% for sortie in sorties %}
             <tr>
                 <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.datedebut }}</td>
-                <td>{{ sortie.datecloture }}</td>
-                <td>{{ sortie.participantsNoParticipant }} / {{ sortie.nbinscriptionsmax }}</td>
-                <td>{{ sortie.etatsNoEtat.libelle }}</td>
+                <td>{{ sortie.datedebut|date("d/m/Y") }}</td>
+                <td>{{ sortie.datecloture|date("d/m/Y") }}</td>
+                {# <td>{{ sortie.participantsNoParticipant }} / {{ sortie.nbinscriptionsmax }}</td>
+                <td>{{ sortie.etatsNoEtat.libelle }}</td> #}
                 <td>{{ sortie.organisateur }}</td>
                 <td>jvbeib</td>
             </tr>
