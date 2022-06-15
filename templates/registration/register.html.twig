@@ -9,6 +9,7 @@
     <div class="participant">
         
     </div>
+    {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.participant.nom) }}
         {{ form_row(registrationForm.participant.prenom) }}
         {{ form_row(registrationForm.participant.mail) }}
@@ -17,7 +18,7 @@
             label: 'Password'
         }) }}
         
-        {{ form_row(registrationForm.agreeTerms) }}
 
         <button type="submit" class="btn">Register</button>
+    {{ form_end(registrationForm) }}
 {% endblock %}
