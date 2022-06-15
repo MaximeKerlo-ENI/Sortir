@@ -1,19 +1,27 @@
 <header>
-    <nav class="green lighten-1">
-        <div class="nav-wrapper">
-          <a href="#!" class="brand-logo">Sortir.com</a>
-          <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-          <ul class="right hide-on-med-and-down">
-            {% for ele in menu %}
-                <li><a href="{{ path('app_' ~ ele|lower) }}">{{ele}}</a></li>
-            {% endfor %}    
-          </ul>
-        </div>
-      </nav>
-    
-      <ul class="sidenav" id="mobile-demo">
+  <nav class="green lighten-1">
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo">Sortir.com</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
         {% for ele in menu %}
+        {% if ele == "Connexion" %}
+        <li><a href="{{ path('app_register') }}">{{ele}}</a></li>
+        {% else %}
         <li><a href="{{ path('app_' ~ ele|lower) }}">{{ele}}</a></li>
-        {% endfor %} 
+        {% endif %}
+        {% endfor %}
       </ul>
+    </div>
+  </nav>
+
+  <ul class="sidenav" id="mobile-demo">
+    {% for ele in menu %}
+    {% if ele == "Connexion" %}
+    <li><a href="{{ path('app_register') }}">{{ele}}</a></li>
+    {% else %}
+    <li><a href="{{ path('app_' ~ ele|lower) }}">{{ele}}</a></li>
+    {% endif %}
+    {% endfor %}
+  </ul>
 </header>

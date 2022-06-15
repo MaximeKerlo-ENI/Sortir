@@ -7,17 +7,17 @@ Accueil
 {% block main %}
 <div class="container col row right-align">
     <p>Date du jour : {{"now"|date("d/m/Y")}}</p>
-    {# if app.user 
-        <p>Participant : {{ user.nom }}</p>
+    {# if app.user
+    <p>Participant : {{ user.nom }}</p>
     endif #}
-    
+
     <div class="container row col s4 left-align">
         <h5>Filtrer les sorties</h5>
         <div class="input-field">
             <select>
-              {# {% for site in sites %}
+                {# {% for site in sites %}
                 <option value="">{{ site }}</option>
-              {% endfor %} #}
+                {% endfor %} #}
             </select>
             <label>Site : </label>
         </div>
@@ -31,26 +31,26 @@ Accueil
     <div class="container row col s4 left-align">
         <p>
             <label>
-              <input type="checkbox" class="filled-in" checked="checked" />
-              <span>Sorties dont je suis l'organisateur/trice</span>
+                <input type="checkbox" class="filled-in" />
+                <span>Sorties dont je suis l'organisateur/trice</span>
             </label>
         </p>
         <p>
             <label>
-              <input type="checkbox" class="filled-in" checked="checked" />
-              <span>Sorties auxquelles je suis incrit/e</span>
+                <input type="checkbox" class="filled-in" />
+                <span>Sorties auxquelles je suis incrit/e</span>
             </label>
         </p>
         <p>
             <label>
-              <input type="checkbox" class="filled-in" checked="checked" />
-              <span>Sorties auxquelles je ne suis pas inscrit/e</span>
+                <input type="checkbox" class="filled-in" />
+                <span>Sorties auxquelles je ne suis pas inscrit/e</span>
             </label>
         </p>
         <p>
             <label>
-              <input type="checkbox" class="filled-in" checked="checked" />
-              <span>Sorties passées</span>
+                <input type="checkbox" class="filled-in" />
+                <span>Sorties passées</span>
             </label>
         </p>
     </div>
@@ -74,7 +74,7 @@ Accueil
         <tbody>
             {% for sortie in sorties %}
             <tr>
-                <td>{{ sortie.nom }}</td> 
+                <td>{{ sortie.nom }}</td>
                 <td>{{ sortie.datedebut }}</td>
                 <td>{{ sortie.datecloture }}</td>
                 <td>{{ sortie.participantsNoParticipant }} / {{ sortie.nbinscriptionsmax }}</td>
@@ -90,8 +90,9 @@ Accueil
         </tbody>
     </table>
 </div>
+{% if app.user %}
 <div class="container row">
     <a class="waves-effect waves-light green lighten-1 btn left-align" href="">Créer une sortie</a>
 </div>
-
+{% endif %}
 {% endblock %}
