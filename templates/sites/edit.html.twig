@@ -1,8 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/base.html.twig' %}
 
 {% block title %}Edit Sites{% endblock %}
 
-{% block body %}
+{% block main %}
     <h1>Edit Sites</h1>
 
     {{ include('sites/_form.html.twig', {'button_label': 'Update'}) }}
