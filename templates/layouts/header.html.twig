@@ -5,8 +5,10 @@
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         {% for ele in menu %}
-        {% if ele == "Connexion" %}
+        {% if ele == "Inscription" %}
         <li><a href="{{ path('app_register') }}">{{ele}}</a></li>
+        {% elseif ele == "Connexion" %}
+        <li><a href="{{ path('app_login') }}">{{ele}}</a></li>
         {% else %}
         <li><a href="{{ path('app_' ~ ele|lower) }}">{{ele}}</a></li>
         {% endif %}
@@ -16,12 +18,14 @@
   </nav>
 
   <ul class="sidenav" id="mobile-demo">
-    {% for ele in menu %}
-    {% if ele == "Connexion" %}
-    <li><a href="{{ path('app_register') }}">{{ele}}</a></li>
-    {% else %}
-    <li><a href="{{ path('app_' ~ ele|lower) }}">{{ele}}</a></li>
-    {% endif %}
-    {% endfor %}
+        {% for ele in menu %}
+        {% if ele == "Inscription" %}
+        <li><a href="{{ path('app_register') }}">{{ele}}</a></li>
+        {% elseif ele == "Connexion" %}
+        <li><a href="{{ path('app_login') }}">{{ele}}</a></li>
+        {% else %}
+        <li><a href="{{ path('app_' ~ ele|lower) }}">{{ele}}</a></li>
+        {% endif %}
+        {% endfor %}
   </ul>
 </header>
