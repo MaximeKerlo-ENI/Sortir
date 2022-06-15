@@ -93,7 +93,7 @@ Accueil
 </div>
 {% if app.user %}
 <div class="container row">
-    <a class="waves-effect waves-light green lighten-1 btn left-align" href="">Créer une sortie</a>
+    <a class="waves-effect waves-light green lighten-1 btn left-align" href="{{ path('app_sorties_new') }}">Créer une sortie</a>
 </div>
 {% endif %}
 {% endblock %}
