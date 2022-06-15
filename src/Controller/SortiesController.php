@@ -42,7 +42,7 @@ class SortiesController extends AbstractController
 
         return $this->renderForm('sorties/new.html.twig', [
             'sorty' => $sorty,
-            'form' => $form,
+            'sortieForm' => $form,
         ]);
     }
 
