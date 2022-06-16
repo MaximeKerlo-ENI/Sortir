@@ -39,7 +39,6 @@
     grid-area: 7 / 1 / 8 / 5;
   }
 </style>
-
 <div class="row">
   <div class="col s6">
     {{ form_row(sortieForm.nom) }}
@@ -52,23 +51,16 @@
 
   <div class="col s6">
     <div class="parent">
-      <div class="div1"><label for="">Ville organisatrice </label></div>
-      <div class="div2">
-        {{ form_row(sortieForm.villes) }}
+      <div class="div1" id="maDiv1"><label for="monParagraphe">Ville organisatrice</label><p id="monParagraphe">{{ app.user.sitesNoSite.nomSite }}</p></div>
+      <div class="div2" id="maDiv2">{{ form_row(sortieForm.villesNoVilles, { 'id': 'select_ville'}) }}</div>
+      <div class="div3" id="maDiv3">{{ form_row(sortieForm.lieuxNoLieu, { 'id': 'select_lieu'}) }}</div>
+      <div class="div4" id="maDiv4">
+        <a href="" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
       </div>
-      <div class="div3">{{ form_row(sortieForm.lieuxNoLieu) }}</div>
-      <div class="div4">
-        <a href="" class="btn-floating btn-large waves-effect waves-light red"
-          ><i class="material-icons">add</i></a
-        >
-      </div>
-      <div class="div5">{{ form_row(sortieForm.rueLieu) }}</div>
-      <div class="div6">{{ form_row(sortieForm.codePostal) }}</div>
-      <div class="div7">
-        {{ form_row(sortieForm.latitude) }}      </div>
-      <div class="div8">
-        {{ form_row(sortieForm.longitude) }}      </div>
-    </div>
+      <div class="div5" id="maDiv5"></div>
+      <div class="div6" id="maDiv6"></div>
+      <div class="div7" id="maDiv7"></div> 
+      <div class="div8" id="maDiv8"></div>
   </div>
 </div>
 
@@ -87,3 +79,7 @@
 </div>
 
 {{ form_end(sortieForm) }}
+
+{% block javascripts %}
+  <script type="text/javascript" src="{{ asset("assets/js/sortieForm.js") }}"></script>
+{% endblock %}
