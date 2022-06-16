@@ -1,0 +1,6 @@
+{{ form_start(form) }}
+<h4>Participant : {{ participant.pseudo }}</h4>
+{{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button> 
+
+{{ form_end(form) }}

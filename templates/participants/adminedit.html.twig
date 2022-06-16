@@ -1,0 +1,13 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Modifie Utilisateur{% endblock %}
+
+{% block main %}
+    <h1>Modifier Utilisateur :</h1>
+
+    {{ include('participants/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
+
+    <a href="{{ path('app_participants_index') }}">back to list</a>
+
+    {{ include('participants/_delete_form.html.twig') }}
+{% endblock %}

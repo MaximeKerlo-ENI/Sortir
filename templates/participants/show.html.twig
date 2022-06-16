@@ -1,0 +1,66 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Participant{% endblock %}
+
+{% block main %}
+    <h1>Participant : {{ participant.pseudo }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>NoParticipant</th>
+                <td>{{ participant.noParticipant }}</td>
+            </tr>
+            <tr>
+                <th>Pseudo</th>
+                <td>{{ participant.pseudo }}</td>
+            </tr>
+                          <tr>
+                <th>Roles</th>
+                <td>{% for role in participant.roles %}
+                        {% if role == "ROLE_USER" %}
+                            Utilisateur,
+                        {% elseif role == "ROLE_SUPER_ADMIN" %}
+                            Super-Administrateur,
+                        {% elseif role == "ROLE_ADMIN" %}
+                            Administrateur,
+                        {% endif %}
+                    {% endfor %}</td>
+            </tr>
+            {# <tr>
+                <th>Roles</th>
+                <td>{{ participant.roles ? participant.roles|json_encode : '' }}</td>
+            </tr> #}
+            <tr>
+                <th>Nom</th>
+                <td>{{ participant.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ participant.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ participant.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Mail</th>
+                <td>{{ participant.mail }}</td>
+            </tr>
+            <tr>
+                <th>Actif</th>
+                <td>{{ participant.actif ? 'Yes' : 'No' }}</td>
+            </tr>
+              <tr>
+                <th>Ville de rattachement</th>
+                <td>{{ participant.sitesNoSite.nomSite}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_participants_index') }}">back to list</a>
+
+    <a href="{{ path('app_participants_adminedit', {'noParticipant': participant.noParticipant}) }}">edit</a>
+
+    {{ include('participants/_delete_form.html.twig') }}
+{% endblock %}

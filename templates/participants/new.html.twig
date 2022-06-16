@@ -1,0 +1,10 @@
+{% extends 'layouts/base.html.twig' %}
+<title>New Participants</title>
+
+{% block main %}
+    <h1>Create new Participants</h1>
+
+    {{ include('participants/_form.html.twig') }}
+
+    <a href="{{ path('app_participants_index') }}">back to list</a>
+{% endblock %}
