@@ -1,4 +1,4 @@
-{# {{ form_start(sortieForm) }} #}
+{{ form_start(sortieForm) }}
 <style>
   .btn {
     margin: 40px !important;
@@ -54,10 +54,7 @@
     <div class="parent">
       <div class="div1"><label for="">Ville organisatrice </label></div>
       <div class="div2">
-        <label for="">Ville </label
-        ><select name="" id="">
-          <option>Ville</option>
-        </select>
+        {{ form_row(sortieForm.villes) }}
       </div>
       <div class="div3">{{ form_row(sortieForm.lieuxNoLieu) }}</div>
       <div class="div4">
@@ -65,40 +62,28 @@
           ><i class="material-icons">add</i></a
         >
       </div>
-      <div class="div5"><label for="">Rue </label></div>
-      <div class="div6"><label for="">Code postal </label></div>
+      <div class="div5">{{ form_row(sortieForm.rueLieu) }}</div>
+      <div class="div6">{{ form_row(sortieForm.codePostal) }}</div>
       <div class="div7">
-        <label for="">Latitude </label><input type="text" class="disabled" />
-      </div>
+        {{ form_row(sortieForm.latitude) }}      </div>
       <div class="div8">
-        <label for="">Longitude </label><input type="text" class="disabled" />
-      </div>
+        {{ form_row(sortieForm.longitude) }}      </div>
     </div>
   </div>
-  {# {{ form_row(sortieForm.participantsNoParticipant.nomSite) }} #} {#
-  <a href="{{ path('app_sorties_new') }}">nouvelle sortie</a> #} {#
-  <a
-    href="{{ path('lieu') }}"
-    class="btn-floating btn-large waves-effect waves-light red"
-    ><i class="material-icons">add</i></a
-  >
-  #} {# <label>Code postal : {{ form_row(ville.getCodePostal) }}</label> #} {#
-  {{ form_row(sortieForm.lieuxNoLieu.latitude) }}
-  {{ form_row(sortieForm.lieuxNoLieu.longitude) }} #}
 </div>
 
 <div class="center">
-  <button type="submit" class="btn">
+  <button type="submit" class="btn green lighten-1">
     {{ button_label|default('Enregistrer') }}
   </button>
-  <button type="submit" class="btn">
+  <button type="submit" class="btn green lighten-1">
     {{ button_label|default('Publier la sortie') }}
   </button>
   <a
-    class="btn"
+    class="btn green lighten-1"
     href="{{ path('app_accueil') }}"
     >{{ button_label|default('Annuler') }}</a
   >
 </div>
 
-{# {{ form_end(sortieForm) }} #}
+{{ form_end(sortieForm) }}
