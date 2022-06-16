@@ -9,14 +9,13 @@ Accueil
     <p>Date du jour : {{"now"|date("d/m/Y")}}</p>
     {% if app.user %}
         <p>Participant : {{ app.user.userIdentifier }}</p>
-        <a href="{{ path('app_logout') }}">Déconnexion</a>
     {% endif %}
 
     <div class="container row col s4 left-align">
         <h5>Filtrer les sorties</h5>
         <div class="input-field">
             <select>
-                {# {% for site in sites %}
+                {# {% for site in sorties %}
                 <option value="">{{ site }}</option>
                 {% endfor %} #}
             </select>
@@ -76,12 +75,13 @@ Accueil
             {% for sortie in sorties %}
             <tr>
                 <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.datedebut }}</td>
-                <td>{{ sortie.datecloture }}</td>
-                <td>{{ sortie.participantsNoParticipant }} / {{ sortie.nbinscriptionsmax }}</td>
-                <td>{{ sortie.etatsNoEtat.libelle }}</td>
+                <td>{{ sortie.datedebut|date("d/m/Y") }}</td>
+                <td>{{ sortie.datecloture|date("d/m/Y") }}</td>
+                <td>#{#{{ sortie.participantsNoParticipant }}#} / {{ sortie.nbinscriptionsmax }}</td>
+                <td>{#{{ sortie.etatsNoEtat.libelle }}#}</td> 
+                <td>X</td>
                 <td>{{ sortie.organisateur }}</td>
-                <td>jvbeib</td>
+                <td><a href="/sorties/{{ sortie.noSortie }}">Afficher</a></td>
             </tr>
             {% else %}
             <tr>
