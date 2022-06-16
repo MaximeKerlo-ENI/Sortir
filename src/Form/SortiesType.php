@@ -2,12 +2,14 @@
 
 namespace App\Form;
 
+use App\Entity\Etats;
 use App\Entity\Lieux;
 use App\Entity\Participants;
 use App\Entity\Sites;
 use App\Entity\Sorties;
 use App\Entity\Villes;
 use DateTime;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -26,19 +28,21 @@ class SortiesType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, ["label" => "Nom"]) //changer les titres + mettre les calendriers
-            ->add('datedebut', DateType::class, ["label" => "Débute le ...", "widget" => "single_text"])
+            ->add('datedebut', DateTimeType::class, ["label" => "Débute le ...", "widget" => "single_text"])
             ->add('duree', IntegerType::class, ["label" => "Durée"])
-            ->add('datecloture', DateType::class, ["label" => "Date de cloture des inscriptions", "widget" => "single_text"])
+            ->add('datecloture', DateTimeType::class, ["label" => "Date de cloture des inscriptions", "widget" => "single_text"])
             ->add('nbinscriptionsmax', IntegerType::class, ["label" => "Nombre maximum d'inscriptions"])
             ->add('descriptioninfos', TextareaType::class, ["label" => "Description de l'activité"])
-            ->add('villes', EntityType::class, [
-                "label" => "Ville",
+            
+            ->add('villesNoVilles', EntityType::class, [
+                "label" => "Ville de la sortie",
                 "class" => Villes::class,
-                "choice_label" => function ($villes) {
-                    return $villes->getNomVille();
+                "choice_label" => function ($villesNoVilles) {
+                    return $villesNoVilles->getNomVille();
                 },
                 'mapped' => false
             ])
+
             ->add('lieuxNoLieu', EntityType::class, [
                 "label" => "Lieu de la sortie",
                 "class" => Lieux::class,
@@ -47,29 +51,11 @@ class SortiesType extends AbstractType
                 },
                 'mapped' => false
             ])
-            ->add('rueLieu', EntityType::class, [
-                "label" => "Rue",
-                "class" => Lieux::class,
-                "choice_label" => function ($rueLieu) {
-                    return $rueLieu->getRue();
-                },
-                'mapped' => false
-            ])
-            ->add('codePostal', EntityType::class, [
-                "label" => "Code postal",
-                "class" => Lieux::class,
-                "choice_label" => function ($codePostal) {
-                    return $codePostal->getVillesNoVille()->getCodePostal();
-                },
-                'mapped' => false
-            ])
-            ->add('latitude', IntegerType::class,["label"=>"Latitude"])
-            
-            ->add('longitude', EntityType::class, [
-                "label" => "Longitude",
-                "class" => Lieux::class,
-                "choice_label" => function ($longitude) {
-                    return $longitude->getLongitude();
+
+            ->add('etatsNoEtat', EntityType::class, [
+                "class" => Etats::class,
+                "choice_label" => function ($etatsNoEtat) {
+                    return $etatsNoEtat->getLibelle();
                 },
                 'mapped' => false
             ])
