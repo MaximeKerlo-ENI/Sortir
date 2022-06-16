@@ -29,18 +29,22 @@ class ParticipantsAdminEditType extends AbstractType
                     'Administrateur' => 'ROLE_ADMIN',
                     'Super-Administrateur' => 'ROLE_SUPER_ADMIN'
                 ],
-                'expanded' => true,
                 'multiple' => true,
                 'label' => 'Rôles' 
             ])
-            ->add('actif', CheckboxType::class)
+            ->add('actif', ChoiceType::class, [
+                'choices'  => [
+                    'Yes' => true,
+                    'No' => false
+                ],
+            ])
             ->add('sitesNoSite', EntityType::class, [
                 "class" => Sites::class,
                 "choice_label" => function ($site) {
                     return $site->getNomSite();
                 }
             ])
-            ->add('valider', SubmitType::class)
+            // ->add('valider', SubmitType::class)
         ;
     }
 

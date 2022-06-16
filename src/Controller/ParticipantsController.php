@@ -7,6 +7,7 @@ use App\Form\Participants1Type;
 use App\Form\ParticipantsAdminEditType;
 use App\Form\ParticipantsEditType;
 use App\Repository\ParticipantsRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ParticipantsController extends AbstractController
 {
     /**
+     * @IsGranted("ROLE_ADMIN")
+     * 
      * @Route("/", name="app_participants_index", methods={"GET"})
      */
     public function index(ParticipantsRepository $participantsRepository): Response
@@ -68,8 +71,8 @@ class ParticipantsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $participantsRepository->add($participant, true);
-
-            return $this->redirectToRoute('app_participants_index', [], Response::HTTP_SEE_OTHER);
+            $noparticipant = $participant->getNoParticipant();
+            return $this->redirectToRoute('app_participants_edit', ['noParticipant' => $noparticipant], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('participants/edit.html.twig', [
@@ -78,26 +81,26 @@ class ParticipantsController extends AbstractController
         ]);
     }
 
-      /**
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * 
      * @Route("/{noParticipant}/adminedit", name="app_participants_adminedit", methods={"GET", "POST"})
      */
-    public function adminEdit(Request $request, Participants $participant)
+    public function adminEdit(Request $request, Participants $participant, ParticipantsRepository $participantsRepository): Response
     {
         $form = $this->createForm(ParticipantsAdminEditType::class, $participant);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($participant);
-            $entityManager->flush();
+            $participantsRepository->add($participant, true);
     
-            $this->addFlash('message', 'Utilisateur modifié avec succès');
-            return $this->redirectToRoute('app_participants_index');
+        
+            return $this->redirectToRoute('app_participants_index', [], Response::HTTP_SEE_OTHER);
         }
         
-        return $this->render('participants/adminedit.html.twig', [
+        return $this->renderForm('participants/adminedit.html.twig', [
             'participant' => $participant,
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 
@@ -110,6 +113,6 @@ class ParticipantsController extends AbstractController
             $participantsRepository->remove($participant, true);
         }
 
-        return $this->redirectToRoute('app_participants_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
     }
 }

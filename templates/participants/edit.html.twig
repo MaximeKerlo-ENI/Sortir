@@ -5,9 +5,9 @@
 {% block main %}
     <h1>Modifier mon profil</h1>
 
-    {{ include('participants/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('participants/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 
-    <a href="{{ path('app_participants_index') }}">back to list</a>
-
+    <a href="{{ path('app_participants_index') }}">Retour</a>
+    <br>
     {{ include('participants/_delete_form.html.twig') }}
 {% endblock %}

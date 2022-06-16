@@ -1,45 +1,6 @@
 {{ form_start(form) }}
-<h1>Participant : {{ participant.pseudo }}</h1>
-    {# {{ form_row(participant.pseudo) }}
-    {{ form_row(participant.nom) }}
-    {{ form_row(participant.prenom) }}
-    {{ form_row(participant.telephone) }}
-    {{ form_row(participant.mail) }}
-    {{ form_row(participant.sitesNoSite.nomSite) }} #}
-    
-    {# <table class="table">
-        <tbody>
-            <tr>
-                <th>NoParticipant</th>
-                <td><input type="text" value="{{ participant.noParticipant }}"></td>
-            </tr>
-            <tr>
-                <th>Pseudo</th>
-                <td><input type="text" value="{{ participant.pseudo }}"></td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td><input type="text" value="{{ participant.nom }}"></td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td><input type="text" value="{{ participant.prenom }}"></td>
-            </tr>
-            <tr>
-                <th>Telephone</th>
-                <td><input type="text" value="{{ participant.telephone }}"></td>
-            </tr>
-            <tr>
-                <th>Mail</th>
-                <td><input type="text" value="{{ participant.mail }}"></td>
-            </tr>
-              <tr>
-                <th>Ville de rattachement</th>
-                <td><input type="text" value="{{ participant.sitesNoSite.nomSite}}"></td>
-            </tr>
-        </tbody>
-    </table> #}
-    
-    {# <button class="btn">{{ button_label|default('Save') }}</button>  #}
+<h4>Participant : {{ participant.pseudo }}</h4>
+{{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button> 
 
 {{ form_end(form) }}
