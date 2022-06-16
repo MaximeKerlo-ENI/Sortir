@@ -6,11 +6,13 @@ use App\Entity\Lieux;
 use App\Entity\Participants;
 use App\Entity\Sites;
 use App\Entity\Sorties;
+use App\Entity\Villes;
 use DateTime;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -24,24 +26,53 @@ class SortiesType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, ["label" => "Nom"]) //changer les titres + mettre les calendriers
-            ->add('datedebut', DateType::class, ["label" => "Date de début", "widget" => "single_text"])
-            ->add('duree', NumberType::class, ["label" => "Durée"])
+            ->add('datedebut', DateType::class, ["label" => "Débute le ...", "widget" => "single_text"])
+            ->add('duree', IntegerType::class, ["label" => "Durée"])
             ->add('datecloture', DateType::class, ["label" => "Date de cloture des inscriptions", "widget" => "single_text"])
-            ->add('nbinscriptionsmax', NumberType::class, ["label" => "Nombre maximum d'inscriptions"])
+            ->add('nbinscriptionsmax', IntegerType::class, ["label" => "Nombre maximum d'inscriptions"])
             ->add('descriptioninfos', TextareaType::class, ["label" => "Description de l'activité"])
-            ->add('etatsortie')
-            ->add('urlphoto')
-            // ->add('sitesNoSite', EntityType::class,["class"=>Sites::class])
-            // ->add('etatsNoEtat')
-            ->add('organisateur')
+            ->add('villes', EntityType::class, [
+                "label" => "Ville",
+                "class" => Villes::class,
+                "choice_label" => function ($villes) {
+                    return $villes->getNomVille();
+                },
+                'mapped' => false
+            ])
             ->add('lieuxNoLieu', EntityType::class, [
-                "label" =>"Lieu de la sortie",
+                "label" => "Lieu de la sortie",
                 "class" => Lieux::class,
                 "choice_label" => function ($lieuxNoLieu) {
-                    return $lieuxNoLieu->getVillesNoVille()->getNomVille();
-                }
+                    return $lieuxNoLieu->getNomLieu();
+                },
+                'mapped' => false
             ])
-            // ->add('participantsNoParticipant',EntityType::class,["class"=>Participants::class])
+            ->add('rueLieu', EntityType::class, [
+                "label" => "Rue",
+                "class" => Lieux::class,
+                "choice_label" => function ($rueLieu) {
+                    return $rueLieu->getRue();
+                },
+                'mapped' => false
+            ])
+            ->add('codePostal', EntityType::class, [
+                "label" => "Code postal",
+                "class" => Lieux::class,
+                "choice_label" => function ($codePostal) {
+                    return $codePostal->getVillesNoVille()->getCodePostal();
+                },
+                'mapped' => false
+            ])
+            ->add('latitude', IntegerType::class,["label"=>"Latitude"])
+            
+            ->add('longitude', EntityType::class, [
+                "label" => "Longitude",
+                "class" => Lieux::class,
+                "choice_label" => function ($longitude) {
+                    return $longitude->getLongitude();
+                },
+                'mapped' => false
+            ])
         ;
     }
 
