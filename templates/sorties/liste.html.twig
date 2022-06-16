@@ -14,19 +14,19 @@ Accueil
     <div class="container row col s4 left-align">
         <h5>Filtrer les sorties</h5>
         <div class="input-field">
-            <select>
-                {# {% for site in sorties %}
-                <option value="">{{ site }}</option>
-                {% endfor %} #}
+            <select id="siteInput">
+                {% for site in sites %}
+                <option value="{{ site.nomSite }}">{{ site.nomSite }}</option>
+                {% endfor %}
             </select>
             <label>Site : </label>
         </div>
         <label>Nom de la sortie contient : </label>
-        <input type="text">
+        <input type="text" id="nomInput" placeholder="Rechercher...">
         <label>Entre </label>
-        <input type="date">
+        <input type="date" id="dateDebut">
         <label>et : </label>
-        <input type="date">
+        <input type="date" id="dateCloture">
     </div>
     <div class="container row col s4 left-align">
         <p>
@@ -54,16 +54,13 @@ Accueil
             </label>
         </p>
     </div>
-    <div class="container row col s4 left-align">
-        <button class="waves-effect waves-light green lighten-1 btn">Rechercher</button>
-    </div>
 
-    <table class="table mt-3">
+    <table id="tableSorties">
         <thead>
             <tr>
-                <th>Nom de la sortie</th>
-                <th>Date de la sortie</th>
-                <th>Clôture</th>
+                <th>Nom</th>
+                <th>Date début</th>
+                <th>Date clôture</th>
                 <th>Inscrits / Places</th>
                 <th>État</th>
                 <th>Inscrit?</th>
@@ -75,11 +72,11 @@ Accueil
             {% for sortie in sorties %}
             <tr>
                 <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.datedebut|date("d/m/Y") }}</td>
-                <td>{{ sortie.datecloture|date("d/m/Y") }}</td>
+                <td>{{ sortie.datedebut|date('d-m-Y H:i:s') }}</td>
+                <td>{{ sortie.datecloture|date('d-m-Y H:i:s') }}</td>
                 <td>#{#{{ sortie.participantsNoParticipant }}#} / {{ sortie.nbinscriptionsmax }}</td>
-                <td>{#{{ sortie.etatsNoEtat.libelle }}#}</td> 
-                <td>X</td>
+                <td>{#{{ sortie.etatsNoEtat.libelle }}#}</td>  
+                <td></td>
                 <td>{{ sortie.organisateur }}</td>
                 <td><a href="/sorties/{{ sortie.noSortie }}">Afficher</a></td>
             </tr>

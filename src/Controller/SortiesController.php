@@ -85,6 +85,6 @@ class SortiesController extends AbstractController
             $sortiesRepository->remove($sorty, true);
         }
 
-        return $this->redirectToRoute('app_sorties_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_liste', [], Response::HTTP_SEE_OTHER);
     }
 }
