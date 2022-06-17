@@ -6,3 +6,5 @@ $(document).ready(function(){
 $(document).ready(function(){
   $('select').formSelect();
 });
+
+$('#mainDrop').dropdown();
