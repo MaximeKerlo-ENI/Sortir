@@ -1,11 +1,5 @@
 {{ form_start(sortieForm) }}
 <style>
-  .btn {
-    margin: 40px !important;
-  }
-  .btn-floating{
-    margin-left: 40px;
-  }
   .parent {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -55,7 +49,7 @@
       <div class="div2" id="maDiv2">{{ form_row(sortieForm.villesNoVilles, { 'id': 'select_ville'}) }}</div>
       <div class="div3" id="maDiv3">{{ form_row(sortieForm.lieuxNoLieu, { 'id': 'select_lieu'}) }}</div>
       <div class="div4" id="maDiv4">
-        <a href="" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+        <a href="{{ path('app_lieux_new') }}" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
       </div>
       <div class="div5" id="maDiv5"></div>
       <div class="div6" id="maDiv6"></div>
@@ -66,7 +60,7 @@
 
 <div class="center">
   <button type="submit" class="btn green lighten-1">
-    {{ button_label|default('Enregistrer') }}
+    {{ button_save|default('Enregistrer') }}
   </button>
   <button type="submit" class="btn green lighten-1">
     {{ button_label|default('Publier la sortie') }}
