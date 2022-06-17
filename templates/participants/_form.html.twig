@@ -1,6 +1,9 @@
 {{ form_start(form) }}
-<h4>Participant : {{ participant.pseudo }}</h4>
+<h4>Participant :
+	{{ participant.pseudo }}</h4>
 {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button> 
-
+<div class="row">
+	<button class="waves-effect waves-light green lighten-1 btn">{{ button_label|default('Enregistrer') }}<i class="material-icons right">archive</i>
+	</button>
+</div>
 {{ form_end(form) }}

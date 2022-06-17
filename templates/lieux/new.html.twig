@@ -1,11 +1,15 @@
 {% extends 'layouts/base.html.twig' %}
 
+
 {% block title %}Nouveau Lieu{% endblock %}
 
 {% block main %}
     <h1>Créer un nouveau lieu</h1>
 
-    {{ include('lieux/_form.html.twig') }}
+	{{ include('lieux/_form.html.twig') }}
+	<div class="row">
+		<a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_lieux_index') }}">
+			<i class="material-icons right">arrow_back</i>Retour</a>
+	</div>
 
-    <a href="{{ path('app_accueil') }}">back to list</a>
 {% endblock %}

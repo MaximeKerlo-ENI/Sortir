@@ -5,9 +5,9 @@
 {% block main %}
     <h1>Edit Sites</h1>
 
-    {{ include('sites/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('sites/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 
-    <a href="{{ path('app_sites_index') }}">back to list</a>
+    <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_sites_index') }}">Retour</a>
 
     {{ include('sites/_delete_form.html.twig') }}
 {% endblock %}

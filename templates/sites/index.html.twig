@@ -19,8 +19,8 @@
                 <td>{{ site.noSite }}</td>
                 <td>{{ site.nomSite }}</td>
                 <td>
-                    <a href="{{ path('app_sites_show', {'noSite': site.noSite}) }}">show</a>
-                    <a href="{{ path('app_sites_edit', {'noSite': site.noSite}) }}">edit</a>
+                    <a class="btn-floating btn-small waves-effect waves-light green lighten-1" href="{{ path('app_sites_show', {'noSite': site.noSite}) }}"><i class="material-icons">remove_red_eye</i></a>
+                    <a class="btn-floating btn-small waves-effect waves-light green lighten-1" href="{{ path('app_sites_edit', {'noSite': site.noSite}) }}"><i class="material-icons">edit</i></a>
                 </td>
             </tr>
         {% else %}
@@ -30,6 +30,7 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_sites_new') }}">Create new</a>
+    <div class="row">
+    <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_sites_new') }}"><i class="material-icons right">add_circle</i>Créer</a>
+    </div>
 {% endblock %}
