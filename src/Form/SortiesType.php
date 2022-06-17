@@ -52,13 +52,14 @@ class SortiesType extends AbstractType
                 'mapped' => false
             ])
 
-            ->add('etatsNoEtat', EntityType::class, [
-                "class" => Etats::class,
-                "choice_label" => function ($etatsNoEtat) {
-                    return $etatsNoEtat->getLibelle();
-                },
-                'mapped' => false
-            ])
+            // ->add('etatsNoEtat', EntityType::class, [
+            //     "class" => Etats::class,
+            //     "hidden"=>"true",
+            //     "choice_label" => function ($etatsNoEtat) {
+            //         return $etatsNoEtat->getLibelle();
+            //     },
+            //     'mapped' => false
+            // ])
         ;
     }
 
