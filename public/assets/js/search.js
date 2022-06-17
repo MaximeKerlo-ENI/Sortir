@@ -1,10 +1,22 @@
-$(document).ready(function(){
-  $("#nomInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#tableSorties tbody tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+$('#nomInput').keyup(function(){
+  var search = $(this).val();
+
+  $('table tbody tr').hide();
+  var len = $('table tbody tr:not(.notfound) td:nth-child(1):contains("'+search+'")').length;
+
+  if(len > 0){
+    $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
+      $(this).closest('tr').show();
     });
-  });
+  }else{
+    $('.notfound').show();
+  }
+});
+
+$.expr[":"].contains = $.expr.createPseudo(function(arg) {
+  return function( elem ) {
+    return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+  };
 });
 
 function filterRows() {
@@ -21,8 +33,8 @@ function filterRows() {
   var dateFrom = moment(from);
   var dateTo = moment(to);
 
-  $('#tableSorties tr').each(function(i, tr) {
-    var val = $(tr).find("td:nth-child(3)").text();
+  $('#tableSorties tbody tr').each(function(i, tr) {
+    var val = $(tr).find("td:nth-child(2)").text();
     var dateVal = moment(val, "DD/MM/YYYY");
     var visible = (dateVal.isBetween(dateFrom, dateTo, null, [])) ? "" : "none"; // [] for inclusive
     $(tr).css('display', visible);
