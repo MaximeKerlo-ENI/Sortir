@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Edit Lieux</h1>
 
-    {{ include('lieux/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('lieux/_form.html.twig', {'button_label': 'Enregistrer'}) }}
 
-    <a href="{{ path('app_lieux_index') }}">back to list</a>
+    <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_lieux_index') }}">Retour</a>
 
     {{ include('lieux/_delete_form.html.twig') }}
 {% endblock %}

@@ -21,8 +21,8 @@
                 <td>{{ ville.nomVille }}</td>
                 <td>{{ ville.codePostal }}</td>
                 <td>
-                    <a href="{{ path('app_villes_show', {'noVille': ville.noVille}) }}">show</a>
-                    <a href="{{ path('app_villes_edit', {'noVille': ville.noVille}) }}">edit</a>
+                <a class="btn-floating btn-small waves-effect waves-light green lighten-1" href="{{ path('app_villes_show', {'noVille': ville.noVille}) }}"><i class="material-icons">remove_red_eye</i></a>
+                <a class="btn-floating btn-small waves-effect waves-light green lighten-1" href="{{ path('app_villes_edit', {'noVille': ville.noVille}) }}"><i class="material-icons">edit</i></a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +33,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_villes_new') }}">Create new</a>
+    <a class="waves-effect waves-light green lighten-1 btn"  href="{{ path('app_villes_new') }}"><i class="material-icons right">add_circle</i>Créer</a>
 {% endblock %}

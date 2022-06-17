@@ -19,8 +19,8 @@ class ParticipantsEditType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('mail')
-            ->add('actif')
             ->add('sitesNoSite', EntityType::class, [
+                "label" => "Ville organisatrice",
                 "class" => Sites::class,
                 "choice_label" => function ($site) {
                     return $site->getNomSite();

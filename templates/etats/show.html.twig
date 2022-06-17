@@ -17,10 +17,11 @@
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_etats_index') }}">back to list</a>
-
-    <a href="{{ path('app_etats_edit', {'noEtat': etat.noEtat}) }}">edit</a>
-
+    <div class="row">
     {{ include('etats/_delete_form.html.twig') }}
+    <span class="col"></span>
+    <a href="{{ path('app_etats_index') }}">back to list</a>
+    <span class="col"></span>
+    <a href="{{ path('app_etats_edit', {'noEtat': etat.noEtat}) }}">edit</a>
+    </div>
 {% endblock %}

@@ -7,7 +7,7 @@
 
     {{ include('participants/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 
-    <a href="{{ path('app_participants_index') }}">Retour</a>
+    <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_participants_index') }}">Retour</a>
     <br>
     {{ include('participants/_delete_form.html.twig') }}
 {% endblock %}

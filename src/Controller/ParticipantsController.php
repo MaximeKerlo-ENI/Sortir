@@ -6,12 +6,17 @@ use App\Entity\Participants;
 use App\Form\Participants1Type;
 use App\Form\ParticipantsAdminEditType;
 use App\Form\ParticipantsEditType;
+use App\Form\RegistrationFormType;
 use App\Repository\ParticipantsRepository;
+use App\Security\UserAuthenticator;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 /**
  * @Route("/participants")
@@ -33,20 +38,32 @@ class ParticipantsController extends AbstractController
     /**
      * @Route("/new", name="app_participants_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, ParticipantsRepository $participantsRepository): Response
+    public function new(Request $request, UserPasswordHasherInterface $userPasswordHasher, ParticipantsRepository $participantsRepository, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
-        $participant = new Participants();
-        $form = $this->createForm(Participants1Type::class, $participant);
+        $user = new Participants();
+        $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $participantsRepository->add($participant, true);
+            // encode the plain password
+            $user->setPassword(
+            $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+            $user->setActif(true);
+            $entityManager->persist($user);
+            $entityManager->flush();
+            // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('app_participants_index', [], Response::HTTP_SEE_OTHER);
+            return $this->render('participants/index.html.twig', [
+                'participants' => $participantsRepository->findAll(),
+            ]);
         }
 
         return $this->renderForm('participants/new.html.twig', [
-            'participant' => $participant,
+            'participant' => $user,
             'form' => $form,
         ]);
     }
@@ -113,6 +130,8 @@ class ParticipantsController extends AbstractController
             $participantsRepository->remove($participant, true);
         }
 
-        return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
+        return $this->render('participants/index.html.twig', [
+            'participants' => $participantsRepository->findAll(),
+        ]);
     }
 }
