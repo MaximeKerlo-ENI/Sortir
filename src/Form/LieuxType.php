@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Lieux;
+use App\Entity\Villes;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,7 +18,14 @@ class LieuxType extends AbstractType
             ->add('rue')
             ->add('latitude')
             ->add('longitude')
-            ->add('villesNoVille')
+            ->add('villes', EntityType::class, [
+                "label" => "Ville de la sortie",
+                "class" => Villes::class,
+                "choice_label" => function ($villesNoVilles) {
+                    return $villesNoVilles->getCodePostal()." - ".$villesNoVilles->getNomVille();
+                },
+                "mapped"=>false
+            ])
         ;
     }
 
