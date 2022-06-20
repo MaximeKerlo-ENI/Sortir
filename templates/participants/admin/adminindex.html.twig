@@ -39,8 +39,8 @@
                 <td>{{ participant.mail }}</td>
                 <td>{{ participant.actif ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a class="btn-floating btn-small waves-effect waves-light green lighten-1" href="{{ path('app_participants_show', {'noParticipant': participant.noParticipant}) }}"><i class="material-icons">remove_red_eye</i></a>
-                    <a class="btn-floating btn-small waves-effect waves-light green lighten-1" href="{{ path('app_participants_adminedit', {'noParticipant': participant.noParticipant}) }}"><i class="material-icons">edit</i></a>
+                    <a class="btn-floating btn-small waves-effect waves-light green lighten-1" href="{{ path('app_participants_admin_show', {'noParticipant': participant.noParticipant}) }}"><i class="material-icons">remove_red_eye</i></a>
+                    <a class="btn-floating btn-small waves-effect waves-light green lighten-1" href="{{ path('app_participants_admin_edit', {'noParticipant': participant.noParticipant}) }}"><i class="material-icons">edit</i></a>
                 </td>
             </tr>
         {% else %}
@@ -51,7 +51,7 @@
         </tbody>
     </table>
 	<div class="row">
-    <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_participants_new') }}"><i class="material-icons right">add_circle</i>Créer</a>
+    <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_participants_admin_new') }}"><i class="material-icons right">add_circle</i>Créer</a>
     </div>
-    {# <a href="{{ path('app_participants_new') }}">Create new</a> #}
+
 {% endblock %}
