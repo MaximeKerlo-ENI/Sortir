@@ -1,13 +1,13 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title %}Modifier mon Profil{% endblock %}
+{% block title %}Modifie Utilisateur{% endblock %}
 
 {% block main %}
-    <h1>Modifier mon profil</h1>
+    <h1>Modifier Utilisateur :</h1>
 
     {{ include('participants/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 
     <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_participants_index') }}">Retour</a>
-    <br>
-    {{ include('participants/_delete_form.html.twig') }}
+
+    {{ include('participants/admin/_admindelete_form.html.twig') }}
 {% endblock %}

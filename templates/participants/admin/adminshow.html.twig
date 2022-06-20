@@ -58,10 +58,10 @@
         </tbody>
     </table>
     <div class="row">
-    {{ include('participants/_delete_form.html.twig') }}
+    {{ include('participants/admin/_admindelete_form.html.twig') }}
     <span class="col"></span>
-    <a class="col waves-effect waves-light green lighten-1 btn" href="{{ path('app_participants_adminedit', {'noParticipant': participant.noParticipant}) }}">Editer</a>
+    <a class="col waves-effect waves-light green lighten-1 btn" href="{{ path('app_participants_admin_edit', {'noParticipant': participant.noParticipant}) }}">Editer</a>
     <span class="col"></span>
-    <a class="col waves-effect waves-light green lighten-1 btn"  href="{{ path('app_participants_index') }}">Retour</a>
+    <a class="col waves-effect waves-light green lighten-1 btn"  href="{{ path('app_participants_admin_index') }}">Retour</a>
     </div>
 {% endblock %}
