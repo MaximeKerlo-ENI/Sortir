@@ -2,13 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Participants;
 use App\Entity\Sorties;
 use App\Form\SortiesType;
+use App\Repository\EtatsRepository;
+use App\Repository\ParticipantsRepository;
 use App\Repository\SortiesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/sorties")
@@ -28,13 +32,21 @@ class SortiesController extends AbstractController
     /**
      * @Route("/new", name="app_sorties_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, SortiesRepository $sortiesRepository): Response
+    public function new(Request $request, SortiesRepository $sortiesRepository, EtatsRepository $er, ParticipantsRepository $pr): Response
     {
+        $etats = $er->findAll();       
         $sorty = new Sorties();
         $form = $this->createForm(SortiesType::class, $sorty);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if(isset($_POST['create'])){
+                $sorty->setEtatsNoEtat($etats[0]);
+            }
+            if(isset($_POST['open'])){
+                $sorty->setEtatsNoEtat($etats[1]);
+            }
+            $sorty->setOrganisateur($this->getUser());
             $sortiesRepository->add($sorty, true);
 
             return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
