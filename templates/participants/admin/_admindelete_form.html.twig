@@ -1,5 +1,5 @@
 <form method="post" action="{{ path('app_participants_admin_delete', {'noParticipant': participant.noParticipant}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ participant.noParticipant) }}">
-		<button class="col waves-effect waves-light red accent-2 btn">
+		<button class="waves-effect waves-light red accent-2 btn">
 			<i class="material-icons right">delete</i>Supprimer</button>
 </form>
