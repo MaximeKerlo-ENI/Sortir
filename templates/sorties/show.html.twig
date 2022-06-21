@@ -46,6 +46,8 @@
 
         <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_sorties_edit', {'noSortie': sorty.noSortie}) }}">Modifier</a>
 
+        <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_sorties_cancel', {'noSortie': sorty.noSortie}) }}">Annuler la sortie</a>
+
         {{ include('sorties/_delete_form.html.twig') }}
     </div>
     
