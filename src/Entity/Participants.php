@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ParticipantsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -71,6 +73,16 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
      * })
      */
     private $sitesNoSite;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Inscriptions::class, mappedBy="participantsNoParticipant")
+     */
+    private $inscriptions;
+
+    public function __construct()
+    {
+        $this->inscriptions = new ArrayCollection();
+    }
 
 
     public function getNoParticipant(): ?int
@@ -230,6 +242,36 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSitesNoSite(?Sites $sitesNoSite): self
     {
         $this->sitesNoSite = $sitesNoSite;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Inscriptions>
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscriptions $inscription): self
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+            $inscription->setParticipantsNoParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscriptions $inscription): self
+    {
+        if ($this->inscriptions->removeElement($inscription)) {
+            // set the owning side to null (unless already changed)
+            if ($inscription->getParticipantsNoParticipant() === $this) {
+                $inscription->setParticipantsNoParticipant(null);
+            }
+        }
 
         return $this;
     }
