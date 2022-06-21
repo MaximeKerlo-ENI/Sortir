@@ -72,6 +72,10 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $sitesNoSite;
 
+    public function getParticipant(): ?Participants
+    {
+        return $this;
+    }
 
     public function getNoParticipant(): ?int
     {
