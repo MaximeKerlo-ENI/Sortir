@@ -118,6 +118,11 @@ class Sorties
     private $participantsNoParticipant;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $motif;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -251,6 +256,18 @@ class Sorties
         return $this;
     }
 
+    public function getMotif(): ?string
+    {
+        return $this->motif;
+    }
+
+    public function setMotif(?string $motif): self
+    {
+        $this->motif = $motif;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Participants>
      */
@@ -274,5 +291,7 @@ class Sorties
 
         return $this;
     }
+
+
 
 }

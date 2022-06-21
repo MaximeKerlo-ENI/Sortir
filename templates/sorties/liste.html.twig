@@ -67,9 +67,9 @@ Accueil
                 <td>{{ sortie.datedebut|date('d-m-Y H:i:s') }}</td>
                 <td>{{ sortie.datecloture|date('d-m-Y') }}</td>
                 <td>#{#{{ sortie.participantsNoParticipant }}#} / {{ sortie.nbinscriptionsmax }}</td>
-                <td>{#{{ sortie.etatsNoEtat.libelle }}#}</td>  
+                <td>{{ etats[sortie.etatsNoEtat.noEtat - 1].libelle }}</td>  
                 <td></td>
-                <td>{{ sortie.organisateur }}</td>
+                <td>{{ sortie.organisateur.nom }}</td>
                 <td>
                     <a href="/sorties/{{ sortie.noSortie }}" class="btn btn-small waves-effect waves-light green lighten-1">
                     <i class="material-icons">remove_red_eye</i></a>
