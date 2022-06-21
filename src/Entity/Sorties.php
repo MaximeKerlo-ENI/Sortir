@@ -118,9 +118,14 @@ class Sorties
     private $participantsNoParticipant;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $motif;
+
      * @ORM\OneToMany(targetEntity=Inscriptions::class, mappedBy="sortiesNoSortie")
      */
     private $inscriptions;
+
 
     /**
      * Constructor
@@ -257,6 +262,18 @@ class Sorties
         return $this;
     }
 
+    public function getMotif(): ?string
+    {
+        return $this->motif;
+    }
+
+    public function setMotif(?string $motif): self
+    {
+        $this->motif = $motif;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Participants>
      */
@@ -280,6 +297,7 @@ class Sorties
 
         return $this;
     }
+
 
     /**
      * @return Collection<int, Inscriptions>
@@ -310,5 +328,6 @@ class Sorties
 
         return $this;
     }
+
 
 }

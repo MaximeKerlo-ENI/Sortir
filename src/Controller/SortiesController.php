@@ -5,8 +5,12 @@ namespace App\Controller;
 use App\Entity\Participants;
 use App\Entity\Sorties;
 use App\Form\SortiesType;
+
+use App\Repository\LieuxRepository;
+
 use App\Repository\EtatsRepository;
 use App\Repository\ParticipantsRepository;
+
 use App\Repository\SortiesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -98,5 +102,27 @@ class SortiesController extends AbstractController
         }
 
         return $this->redirectToRoute('app_liste', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    /**
+     * @Route("/cancel/{noSortie}", name="app_sorties_cancel", methods={"GET","POST"})
+     */
+    public function cancel(Request $request, Sorties $sorty, SortiesRepository $sortiesRepository, LieuxRepository $lieuxRepository): Response
+    {
+
+        $form = $this->createForm(SortiesType::class, $sorty);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $sortiesRepository->add($sorty, true);
+
+            return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('sorties/cancel.html.twig', [
+            'sorty' => $sorty,
+            'sortieForm' => $form,
+            'lieux' => $lieuxRepository->findAll()
+        ]);
     }
 }
