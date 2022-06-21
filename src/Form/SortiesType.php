@@ -29,7 +29,7 @@ class SortiesType extends AbstractType
         $builder
             ->add('nom', TextType::class, ["label" => "Nom"]) //changer les titres + mettre les calendriers
             ->add('datedebut', DateTimeType::class, ["label" => "Débute le ...", "widget" => "single_text"])
-            ->add('duree', IntegerType::class, ["label" => "Durée"])
+            ->add('duree', IntegerType::class, ["label" => "Durée (en minutes)"])
             ->add('datecloture', DateTimeType::class, ["label" => "Date de cloture des inscriptions", "widget" => "single_text"])
             ->add('nbinscriptionsmax', IntegerType::class, ["label" => "Nombre maximum d'inscriptions"])
             ->add('descriptioninfos', TextareaType::class, ["label" => "Description de l'activité"])
@@ -51,15 +51,6 @@ class SortiesType extends AbstractType
                 },
                 'mapped' => false
             ])
-
-            // ->add('etatsNoEtat', EntityType::class, [
-            //     "class" => Etats::class,
-            //     "hidden"=>"true",
-            //     "choice_label" => function ($etatsNoEtat) {
-            //         return $etatsNoEtat->getLibelle();
-            //     },
-            //     'mapped' => false
-            // ])
         ;
     }
 

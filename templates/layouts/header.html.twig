@@ -23,26 +23,28 @@
   </nav>
 
   <ul id='dropdownAdmin' class='dropdown-content'>
-    <li><a href="{{ path('app_participants_index') }}">Utilisateurs</a></li>
+    <li><a href="{{ path('app_participants_admin_index') }}">Utilisateurs</a></li>
     <li><a href="{{ path('app_villes_index') }}">Villes</a></li>
     <li><a href="{{ path('app_sites_index') }}">Sites</a></li>
   </ul>
 
   <ul class="sidenav" id="mobile-demo">
     {% for ele in menu %}
-    {% if is_granted('ROLE_ADMIN') %}
-    <li><a href="{{ path('app_participants_index') }}">Utilisateurs</a></li>
-    <li><a href="{{ path('app_villes_index') }}">Villes</a></li>
-    <li><a href="{{ path('app_sites_index') }}">Sites</a></li>
-    {% endif %}
-    <li><a href="{{ path('app_' ~ ele|lower) }}">{{ele}}</a></li>
-    {% if not app.user %}
-    <li><a href="{{ path('app_register') }}">Inscription</a></li>
-    <li><a href="{{ path('app_login') }}">Connexion</a></li>
-    {% else %}
-    <li><a href="{{ path('app_participants_edit', {'noParticipant': app.user.noParticipant}) }}">Mon Profil</a></li>
-    <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
-    {% endif %}
-    {% endfor %}
+
+        {% if is_granted('ROLE_ADMIN') %}
+        <li><a href="{{ path('app_participants_admin_index') }}">Utilisateurs</a></li>
+        <li><a href="{{ path('app_villes_index') }}">Villes</a></li>
+        <li><a href="{{ path('app_sites_index') }}">Sites</a></li>
+        {% endif %}
+        <li><a href="{{ path('app_' ~ ele|lower) }}">{{ele}}</a></li>
+        {% if not app.user %}
+        <li><a href="{{ path('app_register') }}">Inscription</a></li>
+        <li><a href="{{ path('app_login') }}">Connexion</a></li>
+        {% else %}
+        <li><a href="{{ path('app_participants_edit', {'noParticipant': app.user.noParticipant}) }}">Mon Profil</a></li>
+        <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+        {% endif %}
+        {% endfor %}
+
   </ul>
 </header>

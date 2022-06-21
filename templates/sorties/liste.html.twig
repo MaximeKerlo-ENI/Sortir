@@ -47,7 +47,7 @@ Accueil
             </label></p>
     </div>
 
-    <table id="tableSorties">
+    <table id="tableSorties" class="highlight centered">
         <thead>
             <tr>
                 <th>Nom</th>
@@ -85,7 +85,7 @@ Accueil
     </table>
 </div>
 {% if app.user %}
-<div class="container row">
+<div class="row">
     <a class="waves-effect waves-light green lighten-1 btn left-align" href="{{ path('app_sorties_new') }}">Créer une sortie</a>
 </div>
 {% endif %}

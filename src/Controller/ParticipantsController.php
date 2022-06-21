@@ -14,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
@@ -24,21 +25,19 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 class ParticipantsController extends AbstractController
 {
     /**
-     * @IsGranted("ROLE_ADMIN")
-     * 
-     * @Route("/", name="app_participants_index", methods={"GET"})
+     * @Route("/admin", name="app_participants_admin_index", methods={"GET"})
      */
-    public function index(ParticipantsRepository $participantsRepository): Response
+    public function adminIndex(ParticipantsRepository $participantsRepository): Response
     {
-        return $this->render('participants/index.html.twig', [
+        return $this->render('participants/admin/adminindex.html.twig', [
             'participants' => $participantsRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="app_participants_new", methods={"GET", "POST"})
+     * @Route("admin/new", name="app_participants_admin_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, UserPasswordHasherInterface $userPasswordHasher, ParticipantsRepository $participantsRepository, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function adminNew(Request $request, UserPasswordHasherInterface $userPasswordHasher, ParticipantsRepository $participantsRepository, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         $user = new Participants();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -47,7 +46,7 @@ class ParticipantsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
-            $userPasswordHasher->hashPassword(
+                $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
@@ -57,12 +56,12 @@ class ParticipantsController extends AbstractController
             $entityManager->flush();
             // do anything else you need here, like send an email
 
-            return $this->render('participants/index.html.twig', [
+            return $this->render('participants/admin/adminindex.html.twig', [
                 'participants' => $participantsRepository->findAll(),
             ]);
         }
 
-        return $this->renderForm('participants/new.html.twig', [
+        return $this->renderForm('participants/admin/adminnew.html.twig', [
             'participant' => $user,
             'form' => $form,
         ]);
@@ -73,7 +72,17 @@ class ParticipantsController extends AbstractController
      */
     public function show(Participants $participant): Response
     {
-        return $this->render('participants/show.html.twig', [
+        return $this->render('participants/user/show.html.twig', [
+            'participant' => $participant,
+        ]);
+    }
+
+    /**
+     * @Route("admin/{noParticipant}", name="app_participants_admin_show", methods={"GET"})
+     */
+    public function adminShow(Participants $participant): Response
+    {
+        return $this->render('participants/admin/adminshow.html.twig', [
             'participant' => $participant,
         ]);
     }
@@ -85,53 +94,79 @@ class ParticipantsController extends AbstractController
     {
         $form = $this->createForm(ParticipantsEditType::class, $participant);
         $form->handleRequest($request);
+        $noparticipant = $participant->getNoParticipant();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $participantsRepository->add($participant, true);
-            $noparticipant = $participant->getNoParticipant();
             return $this->redirectToRoute('app_participants_edit', ['noParticipant' => $noparticipant], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('participants/edit.html.twig', [
+        return $this->renderForm('participants/user/edit.html.twig', [
             'participant' => $participant,
             'form' => $form,
+            'noParticipant' => $noparticipant,
         ]);
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
-     * 
-     * @Route("/{noParticipant}/adminedit", name="app_participants_adminedit", methods={"GET", "POST"})
+     * @Route("admin/{noParticipant}/edit", name="app_participants_admin_edit", methods={"GET", "POST"})
      */
     public function adminEdit(Request $request, Participants $participant, ParticipantsRepository $participantsRepository): Response
     {
         $form = $this->createForm(ParticipantsAdminEditType::class, $participant);
         $form->handleRequest($request);
-    
+
         if ($form->isSubmitted() && $form->isValid()) {
             $participantsRepository->add($participant, true);
-    
-        
-            return $this->redirectToRoute('app_participants_index', [], Response::HTTP_SEE_OTHER);
+
+
+            return $this->redirectToRoute('app_participants_admin_index', [], Response::HTTP_SEE_OTHER);
         }
-        
-        return $this->renderForm('participants/adminedit.html.twig', [
+
+        return $this->renderForm('participants/admin/adminedit.html.twig', [
             'participant' => $participant,
             'form' => $form,
         ]);
     }
 
     /**
-     * @Route("/{noParticipant}", name="app_participants_delete", methods={"POST"})
+     * @Route("admin/{noParticipant}", name="app_participants_admin_delete", methods={"POST"})
      */
-    public function delete(Request $request, Participants $participant, ParticipantsRepository $participantsRepository): Response
+    public function adminDelete(Request $request, Participants $participant, ParticipantsRepository $participantsRepository) : Response
     {
-        if ($this->isCsrfTokenValid('delete'.$participant->getNoParticipant(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $participant->getNoParticipant(), $request->request->get('_token'))) {
             $participantsRepository->remove($participant, true);
         }
 
-        return $this->render('participants/index.html.twig', [
+        return $this->render('participants/admin/adminindex.html.twig', [
             'participants' => $participantsRepository->findAll(),
         ]);
+ 
     }
+
+    /**
+     * @Route("/{noParticipant}", name="app_participants_delete", methods={"POST"})
+     */
+    public function delete(Request $request, Participants $participant, ParticipantsRepository $participantsRepository, Session $session): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $participant->getNoParticipant(), $request->request->get('_token'))) {
+            $participantsRepository->remove($participant, true);
+        }
+     
+        return $this->redirectToRoute('app_logout', [], Response::HTTP_SEE_OTHER); 
+       
+    }
+
+  /**
+     * @Route("/inactiver/{noParticipant}", name="app_participants_inactiver", methods={"POST"})
+     */
+    public function inactiver(Request $request, Participants $participant, ParticipantsRepository $pr): Response
+    {
+        $participant->setActif(false);
+        $pr->add($participant, true);
+     
+        return $this->redirectToRoute('app_logout', [], Response::HTTP_SEE_OTHER); 
+       
+    }
+
 }
