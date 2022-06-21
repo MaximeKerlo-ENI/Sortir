@@ -3,9 +3,8 @@
 {% block title %}Modifier mon Profil{% endblock %}
 
 {% block main %}
+    {% if app.user.noParticipant == noParticipant %}
     <h1>Modifier mon profil</h1>
-
-    
     {{ include('participants/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
     <div class="row"></div>
     <a class="col waves-effect waves-light green lighten-1 btn" href="{{ path('app_accueil') }}">Retour</a>
@@ -13,4 +12,8 @@
     {{ include('participants/user/_delete_form.html.twig') }}
     <div class="row"></div>
     </div>
+    {% else %}
+    <p>Vous ne pouvez modifier d'autres utilisateurs, bien tenté</p>
+    <a class="col waves-effect waves-light green lighten-1 btn" href="{{ path('app_accueil') }}">Retour</a>
+    {% endif %}
 {% endblock %}

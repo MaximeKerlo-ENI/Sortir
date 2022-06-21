@@ -14,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
@@ -93,16 +94,17 @@ class ParticipantsController extends AbstractController
     {
         $form = $this->createForm(ParticipantsEditType::class, $participant);
         $form->handleRequest($request);
+        $noparticipant = $participant->getNoParticipant();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $participantsRepository->add($participant, true);
-            $noparticipant = $participant->getNoParticipant();
             return $this->redirectToRoute('app_participants_edit', ['noParticipant' => $noparticipant], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('participants/user/edit.html.twig', [
             'participant' => $participant,
             'form' => $form,
+            'noParticipant' => $noparticipant,
         ]);
     }
 
@@ -128,9 +130,9 @@ class ParticipantsController extends AbstractController
     }
 
     /**
-     * @Route("admin/{noParticipant}", name="app_participants_admindelete", methods={"POST"})
+     * @Route("admin/{noParticipant}", name="app_participants_admin_delete", methods={"POST"})
      */
-    public function adminDelete(Request $request, Participants $participant, ParticipantsRepository $participantsRepository): Response
+    public function adminDelete(Request $request, Participants $participant, ParticipantsRepository $participantsRepository) : Response
     {
         if ($this->isCsrfTokenValid('delete' . $participant->getNoParticipant(), $request->request->get('_token'))) {
             $participantsRepository->remove($participant, true);
@@ -145,12 +147,26 @@ class ParticipantsController extends AbstractController
     /**
      * @Route("/{noParticipant}", name="app_participants_delete", methods={"POST"})
      */
-    public function delete(Request $request, Participants $participant, ParticipantsRepository $participantsRepository): Response
+    public function delete(Request $request, Participants $participant, ParticipantsRepository $participantsRepository, Session $session): Response
     {
         if ($this->isCsrfTokenValid('delete' . $participant->getNoParticipant(), $request->request->get('_token'))) {
             $participantsRepository->remove($participant, true);
         }
-        return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
+     
+        return $this->redirectToRoute('app_logout', [], Response::HTTP_SEE_OTHER); 
        
     }
+
+  /**
+     * @Route("/inactiver/{noParticipant}", name="app_participants_inactiver", methods={"POST"})
+     */
+    public function inactiver(Request $request, Participants $participant, ParticipantsRepository $pr): Response
+    {
+        $participant->setActif(false);
+        $pr->add($participant, true);
+     
+        return $this->redirectToRoute('app_logout', [], Response::HTTP_SEE_OTHER); 
+       
+    }
+
 }
