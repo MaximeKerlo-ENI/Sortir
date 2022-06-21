@@ -84,7 +84,6 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
         $this->inscriptions = new ArrayCollection();
     }
 
-
     public function getNoParticipant(): ?int
     {
         return $this->noParticipant;

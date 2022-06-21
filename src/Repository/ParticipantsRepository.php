@@ -40,6 +40,8 @@ class ParticipantsRepository extends ServiceEntityRepository implements Password
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+
+
     }
 
     /**
