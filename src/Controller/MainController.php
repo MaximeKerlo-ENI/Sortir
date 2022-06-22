@@ -7,7 +7,7 @@ use App\Entity\Sorties;
 use App\Form\ParticipantsType;
 use App\Form\SortiesType;
 use App\Repository\EtatsRepository;
-
+use App\Repository\InscriptionsRepository;
 use App\Repository\LieuxRepository;
 
 use App\Repository\ParticipantsRepository;
@@ -25,10 +25,11 @@ class MainController extends AbstractController
         /**
         * @Route("/",name="app_accueil")
         */
-        public function liste(SortiesRepository $sr, SitesRepository $siteR, EtatsRepository $er, ParticipantsRepository $pr):Response{
-            
+        public function liste(SortiesRepository $sr, SitesRepository $siteR, EtatsRepository $er, ParticipantsRepository $pr, InscriptionsRepository $ir):Response{
+
             return $this->render("sorties/liste.html.twig",
-            ["sorties"=>$sr->findAll(),
+            ['inscriptions'=>$ir->findAll(),
+            "sorties"=>$sr->findAll(),
              "etats"=>$er->findAll(),
              "organisateur"=>$pr->findAll(),
              "sites"=>$siteR->findAll()]);

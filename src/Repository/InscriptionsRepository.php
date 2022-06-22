@@ -39,20 +39,20 @@ class InscriptionsRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Inscriptions[] Returns an array of Inscriptions objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('i.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   /**
+    * @return Inscriptions[] Returns an array of Inscriptions objects
+    */
+   public function findBySortie($value): array
+   {
+       return $this->createQueryBuilder('i')
+           ->andWhere('i.sortiesNoSortie = :val')
+           ->setParameter('val', $value)
+           ->orderBy('i.participantsNoParticipant', 'ASC')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
 
 //    public function findOneBySomeField($value): ?Inscriptions
 //    {

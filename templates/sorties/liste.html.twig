@@ -71,7 +71,7 @@ Accueil
                 <td></td>
                 <td>{{ sortie.organisateur.nom }}</td>
                 <td>
-                    <a href="/sorties/{{ sortie.noSortie }}" class="btn btn-small waves-effect waves-light green lighten-1">
+                    <a href="{{ path('app_sorties_show', {'noSortie':  sortie.noSortie }) }}" class="btn btn-small waves-effect waves-light green lighten-1">
                     <i class="material-icons">remove_red_eye</i></a>
                     <a href="#" class="btn btn-small waves-effect waves-light green lighten-1">Se désister</a>
                 </td>
@@ -86,7 +86,7 @@ Accueil
 </div>
 {% if app.user %}
 <div class="row">
-    <a class="waves-effect waves-light green lighten-1 btn left-align" href="{{ path('app_sorties_new') }}">Créer une sortie</a>
+    <a class="waves-effect waves-light green lighten-1 btn left-align pulse" href="{{ path('app_sorties_new') }}">Créer une sortie</a>
 </div>
 {% endif %}
 {% endblock %}

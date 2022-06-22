@@ -59,6 +59,20 @@ class Inscriptions
         return $this;
     }
 
+    public function participe(?int $sortieId, ?int $participantId, InscriptionsRepository $ir): bool
+    {  
+        $inscriptions = $ir->findAll();
+        foreach ($inscriptions as $inscription) {
+            if( $inscription->getParticipantsNoParticipant() == $participantId && $inscription->getSortiesNoSortie() == $sortieId) {
+                return true;
+            }
+            
+        }
+
+        return false;
+       
+    }
+
     public function getParticipantsNoParticipant(): ?Participants
     {
         return $this->participantsNoParticipant;
