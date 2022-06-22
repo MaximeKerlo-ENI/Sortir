@@ -3,17 +3,30 @@
 {% block title %}Modifier mon Profil{% endblock %}
 
 {% block main %}
-    {% if app.user.noParticipant == noParticipant %}
-    <h1>Modifier mon profil</h1>
-    <div class="row">
-    {{ include('participants/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
-    <span class="col"></span>
-    <a class="col waves-effect waves-light green lighten-1 btn" href="{{ path('app_accueil') }}">Retour</a>
-    <div class="row"></div>
-    {{ include('participants/user/_delete_form.html.twig') }}
+<div class="row">
+    <div class="col s12 m6" id="margintop">
+        <img class="" width="300" src="{{
+            asset('uploads/pics/' ~ app.user.picFilename) }}">
     </div>
-    {% else %}
-    <p>Vous ne pouvez modifier d'autres utilisateurs, bien tenté</p>
-    <a class="col waves-effect waves-light green lighten-1 btn" href="{{ path('app_accueil') }}">Retour</a>
-    {% endif %}
+
+    <div class="col s12 m6">
+        {% if app.user.noParticipant == noParticipant %}
+        <h1>Modifier mon profil</h1>
+        <div class="row">
+            {{ include('participants/_form.html.twig', {'button_label':
+            'Sauvegarder'}) }}
+            <span class="col"></span>
+            <a class="col waves-effect waves-light green lighten-1 btn" href="{{
+                path('app_accueil') }}">Retour</a>
+            <div class="row"></div>
+            {{ include('participants/user/_delete_form.html.twig') }}
+        </div>
+        {% else %}
+        <p>Vous ne pouvez modifier d'autres utilisateurs, bien tenté</p>
+        <a class="col waves-effect waves-light green lighten-1 btn" href="{{
+            path('app_accueil') }}">Retour</a>
+        {% endif %}
+    </div>
+</div>
+
 {% endblock %}

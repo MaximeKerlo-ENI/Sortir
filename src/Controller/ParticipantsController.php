@@ -12,12 +12,14 @@ use App\Security\UserAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/participants")
@@ -90,13 +92,38 @@ class ParticipantsController extends AbstractController
     /**
      * @Route("/{noParticipant}/edit", name="app_participants_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Participants $participant, ParticipantsRepository $participantsRepository): Response
+    public function edit(Request $request, Participants $participant, ParticipantsRepository $participantsRepository,SluggerInterface $slugger): Response
     {
         $form = $this->createForm(ParticipantsEditType::class, $participant);
         $form->handleRequest($request);
         $noparticipant = $participant->getNoParticipant();
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $picFile */
+            $picFile = $form->get('pic')->getData();
+
+            // this condition is needed because the 'pic' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($picFile) {
+                $originalFilename = pathinfo($picFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $picFile->guessExtension();
+
+                // Move the file to the directory where pics are stored
+                try {
+                    $picFile->move(
+                        $this->getParameter('pics_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $participant->setPicFilename($newFilename);
+            }
             $participantsRepository->add($participant, true);
             return $this->redirectToRoute('app_participants_edit', ['noParticipant' => $noparticipant], Response::HTTP_SEE_OTHER);
         }
@@ -132,7 +159,7 @@ class ParticipantsController extends AbstractController
     /**
      * @Route("admin/{noParticipant}", name="app_participants_admin_delete", methods={"POST"})
      */
-    public function adminDelete(Request $request, Participants $participant, ParticipantsRepository $participantsRepository) : Response
+    public function adminDelete(Request $request, Participants $participant, ParticipantsRepository $participantsRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $participant->getNoParticipant(), $request->request->get('_token'))) {
             $participantsRepository->remove($participant, true);
@@ -141,7 +168,6 @@ class ParticipantsController extends AbstractController
         return $this->render('participants/admin/adminindex.html.twig', [
             'participants' => $participantsRepository->findAll(),
         ]);
- 
     }
 
     /**
@@ -152,21 +178,18 @@ class ParticipantsController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $participant->getNoParticipant(), $request->request->get('_token'))) {
             $participantsRepository->remove($participant, true);
         }
-     
-        return $this->redirectToRoute('app_logout', [], Response::HTTP_SEE_OTHER); 
-       
+
+        return $this->redirectToRoute('app_logout', [], Response::HTTP_SEE_OTHER);
     }
 
-  /**
+    /**
      * @Route("/inactiver/{noParticipant}", name="app_participants_inactiver", methods={"POST"})
      */
     public function inactiver(Request $request, Participants $participant, ParticipantsRepository $pr): Response
     {
         $participant->setActif(false);
         $pr->add($participant, true);
-     
-        return $this->redirectToRoute('app_logout', [], Response::HTTP_SEE_OTHER); 
-       
-    }
 
+        return $this->redirectToRoute('app_logout', [], Response::HTTP_SEE_OTHER);
+    }
 }

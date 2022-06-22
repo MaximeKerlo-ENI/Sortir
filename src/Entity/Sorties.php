@@ -122,6 +122,7 @@ class Sorties
      */
     private $motif;
 
+    /**
      * @ORM\OneToMany(targetEntity=Inscriptions::class, mappedBy="sortiesNoSortie")
      */
     private $inscriptions;

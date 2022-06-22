@@ -79,6 +79,11 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $inscriptions;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $picFilename;
+
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
@@ -271,6 +276,18 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
                 $inscription->setParticipantsNoParticipant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPicFilename(): ?string
+    {
+        return $this->picFilename;
+    }
+
+    public function setPicFilename(?string $picFilename): self
+    {
+        $this->picFilename = $picFilename;
 
         return $this;
     }

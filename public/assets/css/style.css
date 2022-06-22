@@ -6,3 +6,15 @@ main{
   margin-top: 150px;
   margin-bottom: 0px;
 }
+
+#paddingtop {
+  padding-top: 100px;
+}
+
+.padd {
+  padding-top: 5em;
+}
+
+#margintop {
+  margin-top: 150px;
+}
