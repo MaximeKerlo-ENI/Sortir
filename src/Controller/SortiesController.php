@@ -36,7 +36,7 @@ class SortiesController extends AbstractController
     /**
      * @Route("/new", name="app_sorties_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, SortiesRepository $sortiesRepository, EtatsRepository $er, ParticipantsRepository $pr): Response
+    public function new(Request $request, SortiesRepository $sortiesRepository, EtatsRepository $er): Response
     {
         $etats = $er->findAll();       
         $sorty = new Sorties();
