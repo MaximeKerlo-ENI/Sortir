@@ -1,14 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/base.html.twig' %}
 
 {% block title %}Sorties{% endblock %}
 
-{% block body %}
+{% block main %}
     <h1>Sorties</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>NoSortie</th>
+                <th>Numéro</th>
                 <td>{{ sorty.noSortie }}</td>
             </tr>
             <tr>
@@ -16,39 +16,39 @@
                 <td>{{ sorty.nom }}</td>
             </tr>
             <tr>
-                <th>Datedebut</th>
+                <th>Date début</th>
                 <td>{{ sorty.datedebut ? sorty.datedebut|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Duree</th>
+                <th>Durée</th>
                 <td>{{ sorty.duree }}</td>
             </tr>
             <tr>
-                <th>Datecloture</th>
+                <th>Date cloture</th>
                 <td>{{ sorty.datecloture ? sorty.datecloture|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Nbinscriptionsmax</th>
+                <th>Nombre maximum d'inscriptions</th>
                 <td>{{ sorty.nbinscriptionsmax }}</td>
             </tr>
             <tr>
-                <th>Descriptioninfos</th>
+                <th>Description</th>
                 <td>{{ sorty.descriptioninfos }}</td>
             </tr>
             <tr>
-                <th>Etatsortie</th>
-                <td>{{ sorty.etatsortie }}</td>
-            </tr>
-            <tr>
-                <th>Urlphoto</th>
+                <th>Photo</th>
                 <td>{{ sorty.urlphoto }}</td>
             </tr>
         </tbody>
     </table>
+    <div class="row">
+        <a class="waves-effect waves-light green lighten-1 btn col" href="{{ path('app_accueil') }}">Retour accueil</a>
 
-    <a href="{{ path('app_sorties_index') }}">back to list</a>
+        <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_sorties_edit', {'noSortie': sorty.noSortie}) }}">Modifier</a>
 
-    <a href="{{ path('app_sorties_edit', {'noSortie': sorty.noSortie}) }}">edit</a>
+        <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_sorties_cancel', {'noSortie': sorty.noSortie}) }}">Annuler la sortie</a>
 
-    {{ include('sorties/_delete_form.html.twig') }}
+        {{ include('sorties/_delete_form.html.twig') }}
+    </div>
+    
 {% endblock %}

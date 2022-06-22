@@ -1,0 +1,14 @@
+{% extends 'layouts/base.html.twig' %}
+{% block title %}Nouvel utlisateur
+{% endblock %}
+
+{% block main %}
+	<h1>Création</h1>
+
+	{{ include('participants/_form.html.twig') }}
+	<div class="row">
+		<a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_participants_admin_index') }}">
+			<i class="material-icons right">arrow_back</i>Retour</a>
+	</div>
+	{# <a href="{{ path('app_participants_index') }}">back to list</a> #}
+{% endblock %}

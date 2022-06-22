@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Modifie Utilisateur{% endblock %}
+
+{% block main %}
+    <h1>Modifier Utilisateur :</h1>
+
+    <div class="row">
+    {{ include('participants/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
+    <span class="col"></span>
+    <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_participants_admin_index') }}">Retour</a>
+    <div class="row"></div>
+    {{ include('participants/admin/_admindelete_form.html.twig') }}
+    </div>
+{% endblock %}

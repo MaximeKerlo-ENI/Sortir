@@ -2,85 +2,69 @@
 
 namespace App\Entity;
 
+use App\Repository\ParticipantsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Participants
- *
- * @ORM\Table(name="participants", uniqueConstraints={@ORM\UniqueConstraint(name="participants_pseudo_uk", columns={"pseudo"})}, indexes={@ORM\Index(name="participants_sites_fk", columns={"sites_no_site"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=ParticipantsRepository::class)
+ * @UniqueEntity(fields={"pseudo"}, message="There is already an account with this pseudo")
  */
-class Participants
+class Participants implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="no_participant", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(name="no_participant", type="integer")
      */
     private $noParticipant;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="pseudo", type="string", length=30, nullable=false)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
     private $pseudo;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=30, nullable=false)
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
+    /**
+     * @ORM\Column(type="string", length=30)
      */
     private $nom;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="prenom", type="string", length=30, nullable=false)
+     * @ORM\Column(type="string", length=30)
      */
     private $prenom;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="telephone", type="string", length=15, nullable=true)
+     * @ORM\Column(type="string", length=15)
      */
     private $telephone;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="mail", type="string", length=20, nullable=false)
+     * @ORM\Column(type="string", length=20)
      */
     private $mail;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="mot_de_passe", type="string", length=20, nullable=false)
-     */
-    private $motDePasse;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="administrateur", type="boolean", nullable=false)
-     */
-    private $administrateur;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="actif", type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      */
     private $actif;
 
-    /**
+     /**
      * @var Sites
      *
      * @ORM\ManyToOne(targetEntity="Sites")
@@ -91,18 +75,18 @@ class Participants
     private $sitesNoSite;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Sorties", mappedBy="participantsNoParticipant")
+     * @ORM\OneToMany(targetEntity=Inscriptions::class, mappedBy="participantsNoParticipant")
      */
-    private $sortiesNoSortie;
+    private $inscriptions;
 
     /**
-     * Constructor
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
+    private $picFilename;
+
     public function __construct()
     {
-        $this->sortiesNoSortie = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
     }
 
     public function getNoParticipant(): ?int
@@ -120,6 +104,78 @@ class Participants
         $this->pseudo = $pseudo;
 
         return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->pseudo;
+    }
+
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->pseudo;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getNom(): ?string
@@ -151,7 +207,7 @@ class Participants
         return $this->telephone;
     }
 
-    public function setTelephone(?string $telephone): self
+    public function setTelephone(string $telephone): self
     {
         $this->telephone = $telephone;
 
@@ -166,30 +222,6 @@ class Participants
     public function setMail(string $mail): self
     {
         $this->mail = $mail;
-
-        return $this;
-    }
-
-    public function getMotDePasse(): ?string
-    {
-        return $this->motDePasse;
-    }
-
-    public function setMotDePasse(string $motDePasse): self
-    {
-        $this->motDePasse = $motDePasse;
-
-        return $this;
-    }
-
-    public function isAdministrateur(): ?bool
-    {
-        return $this->administrateur;
-    }
-
-    public function setAdministrateur(bool $administrateur): self
-    {
-        $this->administrateur = $administrateur;
 
         return $this;
     }
@@ -219,28 +251,43 @@ class Participants
     }
 
     /**
-     * @return Collection<int, Sorties>
+     * @return Collection<int, Inscriptions>
      */
-    public function getSortiesNoSortie(): Collection
+    public function getInscriptions(): Collection
     {
-        return $this->sortiesNoSortie;
+        return $this->inscriptions;
     }
 
-    public function addSortiesNoSortie(Sorties $sortiesNoSortie): self
+    public function addInscription(Inscriptions $inscription): self
     {
-        if (!$this->sortiesNoSortie->contains($sortiesNoSortie)) {
-            $this->sortiesNoSortie[] = $sortiesNoSortie;
-            $sortiesNoSortie->addParticipantsNoParticipant($this);
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+            $inscription->setParticipantsNoParticipant($this);
         }
 
         return $this;
     }
 
-    public function removeSortiesNoSortie(Sorties $sortiesNoSortie): self
+    public function removeInscription(Inscriptions $inscription): self
     {
-        if ($this->sortiesNoSortie->removeElement($sortiesNoSortie)) {
-            $sortiesNoSortie->removeParticipantsNoParticipant($this);
+        if ($this->inscriptions->removeElement($inscription)) {
+            // set the owning side to null (unless already changed)
+            if ($inscription->getParticipantsNoParticipant() === $this) {
+                $inscription->setParticipantsNoParticipant(null);
+            }
         }
+
+        return $this;
+    }
+
+    public function getPicFilename(): ?string
+    {
+        return $this->picFilename;
+    }
+
+    public function setPicFilename(?string $picFilename): self
+    {
+        $this->picFilename = $picFilename;
 
         return $this;
     }

@@ -39,6 +39,18 @@ class LieuxRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Lieux[] Returns an array of Lieux objects
+     */
+    public function findByVillesNoVille($index): array{
+        $queryBuilder = $this->createQueryBuilder("l");
+        $queryBuilder->andWhere("l.villesNoVille = :index");     
+        $query = $queryBuilder->getQuery();
+        $query->setParameter("index",$index);
+        return $query->getResult();
+       ;
+    }
+
 //    /**
 //     * @return Lieux[] Returns an array of Lieux objects
 //     */

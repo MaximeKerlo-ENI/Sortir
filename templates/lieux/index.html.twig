@@ -2,7 +2,7 @@
 
 {% block title %}Lieux index{% endblock %}
 
-{% block body %}
+{% block main %}
     <h1>Lieux index</h1>
 
     <table class="table">
@@ -25,8 +25,8 @@
                 <td>{{ lieux.latitude }}</td>
                 <td>{{ lieux.longitude }}</td>
                 <td>
-                    <a href="{{ path('app_lieux_show', {'noLieu': lieux.noLieu}) }}">show</a>
-                    <a href="{{ path('app_lieux_edit', {'noLieu': lieux.noLieu}) }}">edit</a>
+                <a class="btn-floating btn-small waves-effect waves-light green lighten-1" href="{{ path('app_lieux_show', {'noLieu': lieux.noLieu}) }}"><i class="material-icons">remove_red_eye</i></a>
+                <a class="btn-floating btn-small waves-effect waves-light green lighten-1" href="{{ path('app_lieux_edit', {'noLieu': lieux.noLieu}) }}"><i class="material-icons">edit</i></a>
                 </td>
             </tr>
         {% else %}
@@ -36,6 +36,7 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_lieux_new') }}">Create new</a>
+    <div class="row">
+    <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_lieux_new') }}"><i class="material-icons right">add_circle</i>Créer</a>
+    </div>
 {% endblock %}

@@ -1,11 +1,13 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/base.html.twig' %}
 
 {% block title %}New Etats{% endblock %}
 
-{% block body %}
+{% block main %}
     <h1>Create new Etats</h1>
 
     {{ include('etats/_form.html.twig') }}
+ <div class="row">
+    <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_etats_index') }}"><i class="material-icons right">arrow_back</i>Retour</a>
+</div>
 
-    <a href="{{ path('app_etats_index') }}">back to list</a>
 {% endblock %}

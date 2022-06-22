@@ -1,0 +1,57 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Participants index{% endblock %}
+
+{% block main %}
+    <h1>Index des Utilisateurs</h1>
+
+    <table class="highlight centered">
+        <thead>
+            <tr>
+                <th>NoParticipant</th>
+                <th>Pseudo</th>
+                <th>Roles</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Telephone</th>
+                <th>Mail</th>
+                <th>Actif</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for participant in participants %}
+            <tr>
+                <td>{{ participant.noParticipant }}</td>
+                <td>{{ participant.pseudo }}</td>
+                <td>{% for role in participant.roles %}
+                        {% if role == "ROLE_USER" %}
+                            Utilisateur,
+                        {% elseif role == "ROLE_SUPER_ADMIN" %}
+                            Super-Administrateur,
+                        {% elseif role == "ROLE_ADMIN" %}
+                            Administrateur,
+                        {% endif %}
+                    {% endfor %}</td>
+                <td>{{ participant.nom }}</td>
+                <td>{{ participant.prenom }}</td>
+                <td>{{ participant.telephone }}</td>
+                <td>{{ participant.mail }}</td>
+                <td>{{ participant.actif ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a class="btn-floating btn-small waves-effect waves-light green lighten-1" href="{{ path('app_participants_admin_show', {'noParticipant': participant.noParticipant}) }}"><i class="material-icons">remove_red_eye</i></a>
+                    <a class="btn-floating btn-small waves-effect waves-light green lighten-1" href="{{ path('app_participants_admin_edit', {'noParticipant': participant.noParticipant}) }}"><i class="material-icons">edit</i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+	<div class="row">
+    <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_participants_admin_new') }}"><i class="material-icons right">add_circle</i>Créer</a>
+    </div>
+
+{% endblock %}

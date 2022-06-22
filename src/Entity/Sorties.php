@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Sorties
  *
- * @ORM\Table(name="sorties", indexes={@ORM\Index(name="sorties_sites_fk", columns={"sites_no_site"}), @ORM\Index(name="sorties_lieux_fk", columns={"lieux_no_lieu"}), @ORM\Index(name="sorties_etats_fk", columns={"etats_no_etat"}), @ORM\Index(name="sorties_participants_fk", columns={"organisateur"})})
+ * @ORM\Table(name="sorties", indexes={@ORM\Index(name="sorties_lieux_fk", columns={"lieux_no_lieu"}), @ORM\Index(name="sorties_etats_fk", columns={"etats_no_etat"}), @ORM\Index(name="sorties_participants_fk", columns={"organisateur"})})
  * @ORM\Entity
  */
 class Sorties
@@ -66,28 +66,11 @@ class Sorties
     private $descriptioninfos;
 
     /**
-     * @var int|null
-     *
-     * @ORM\Column(name="etatsortie", type="integer", nullable=true)
-     */
-    private $etatsortie;
-
-    /**
      * @var string|null
      *
      * @ORM\Column(name="urlPhoto", type="string", length=250, nullable=true)
      */
     private $urlphoto;
-
-    /**
-     * @var Sites
-     *
-     * @ORM\ManyToOne(targetEntity="Sites")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sites_no_site", referencedColumnName="no_site")
-     * })
-     */
-    private $sitesNoSite;
 
     /**
      * @var Etats
@@ -135,11 +118,23 @@ class Sorties
     private $participantsNoParticipant;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $motif;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Inscriptions::class, mappedBy="sortiesNoSortie")
+     */
+    private $inscriptions;
+
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->participantsNoParticipant = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
         
     }
 
@@ -220,18 +215,6 @@ class Sorties
         return $this;
     }
 
-    public function getEtatsortie(): ?int
-    {
-        return $this->etatsortie;
-    }
-
-    public function setEtatsortie(?int $etatsortie): self
-    {
-        $this->etatsortie = $etatsortie;
-
-        return $this;
-    }
-
     public function getUrlphoto(): ?string
     {
         return $this->urlphoto;
@@ -240,18 +223,6 @@ class Sorties
     public function setUrlphoto(?string $urlphoto): self
     {
         $this->urlphoto = $urlphoto;
-
-        return $this;
-    }
-
-    public function getSitesNoSite(): ?Sites
-    {
-        return $this->sitesNoSite;
-    }
-
-    public function setSitesNoSite(?Sites $sitesNoSite): self
-    {
-        $this->sitesNoSite = $sitesNoSite;
 
         return $this;
     }
@@ -292,6 +263,18 @@ class Sorties
         return $this;
     }
 
+    public function getMotif(): ?string
+    {
+        return $this->motif;
+    }
+
+    public function setMotif(?string $motif): self
+    {
+        $this->motif = $motif;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Participants>
      */
@@ -315,5 +298,37 @@ class Sorties
 
         return $this;
     }
+
+
+    /**
+     * @return Collection<int, Inscriptions>
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscriptions $inscription): self
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+            $inscription->setSortiesNoSortie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscriptions $inscription): self
+    {
+        if ($this->inscriptions->removeElement($inscription)) {
+            // set the owning side to null (unless already changed)
+            if ($inscription->getSortiesNoSortie() === $this) {
+                $inscription->setSortiesNoSortie(null);
+            }
+        }
+
+        return $this;
+    }
+
 
 }

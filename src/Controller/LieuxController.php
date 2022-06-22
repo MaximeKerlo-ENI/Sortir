@@ -37,7 +37,7 @@ class LieuxController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $lieuxRepository->add($lieux, true);
 
-            return $this->redirectToRoute('app_lieux_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_sorties_new', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('lieux/new.html.twig', [

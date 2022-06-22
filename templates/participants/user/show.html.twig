@@ -1,0 +1,43 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Participant{% endblock %}
+
+{% block main %}
+<h1>Utilisateur : {{ participant.pseudo }}</h1>
+<div class="row">
+    <div class="col s12 m6" id="margintop">
+        <img class="" width="300" src="{{
+            asset('uploads/pics/' ~ app.user.picFilename) }}">
+    </div>
+    <div class="col s12 m6">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Pseudo</th>
+                    <td>{{ participant.pseudo }}</td>
+                </tr>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ participant.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Prenom</th>
+                    <td>{{ participant.prenom }}</td>
+                </tr>
+                <tr>
+                    <th>Telephone</th>
+                    <td>{{ participant.telephone }}</td>
+                </tr>
+                <tr>
+                    <th>Mail</th>
+                    <td>{{ participant.mail }}</td>
+                </tr>
+                <tr>
+                    <th>Ville de rattachement</th>
+                    <td>{{ participant.sitesNoSite.nomSite}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,11 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/base.html.twig' %} 
+{% block title %}Créer une sortie{% endblock %}
+{% block main %}
+    <h1>Créer une sortie</h1>
 
-{% block title %}New Sorties{% endblock %}
+    {{ include("sorties/_form.html.twig") }}
 
-{% block body %}
-    <h1>Create new Sorties</h1>
-
-    {{ include('sorties/_form.html.twig') }}
-
-    <a href="{{ path('app_sorties_index') }}">back to list</a>
 {% endblock %}

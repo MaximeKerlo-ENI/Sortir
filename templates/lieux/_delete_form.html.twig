@@ -1,4 +1,7 @@
 <form method="post" action="{{ path('app_lieux_delete', {'noLieu': lieux.noLieu}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ lieux.noLieu) }}">
-    <button class="btn">Delete</button>
+	<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ lieux.noLieu) }}">
+	<div class="row">
+		<button class="col waves-effect waves-light red accent-2 btn">
+			<i class="material-icons right">delete</i>Supprimer</button>
+	</div>
 </form>

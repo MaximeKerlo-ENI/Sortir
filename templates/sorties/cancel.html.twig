@@ -1,0 +1,18 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Annuler sortie{% endblock %}
+
+{% block main %}
+
+    <h1>Annuler une sortie</h1>
+    <div class="col s12">
+        <div><label for="nom">Nom de la sortie </label><input readonly="readonly" name="nom" value="{{ sorty.nom }}"/></div>
+        <div><label for="datedebut">Date de la sortie </label><input readonly="readonly" name="datedebut" value="{{ sorty.datedebut ? sorty.datedebut|date('Y-m-d H:i:s') : '' }}"/></div>
+        <div><label for="ville">Ville organisatrice </label><input readonly="readonly" name="ville" value="{{sorty.organisateur.sitesNoSite.nomSite}}"/></div>
+        <div><label for="lieu">Lieu </label><input readonly="readonly" name="lieu" value="{{ sorty.lieuxNoLieu.nomLieu }} - {{ sorty.lieuxNoLieu.rue }} {{ sorty.lieuxNoLieu.villesNoVille.codePostal }} {{sorty.lieuxNoLieu.villesNoVille.nomVille}}"/></div>
+        {# <div><span>{{form_row(sortieForm.motif)}}</span></div> #}
+        <div>{#boutons#}</div>
+    </div>
+
+    
+{% endblock %}

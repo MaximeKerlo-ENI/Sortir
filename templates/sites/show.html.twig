@@ -1,26 +1,30 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/base.html.twig' %}
 
-{% block title %}Sites{% endblock %}
+{% block title %}Sites
+{% endblock %}
 
-{% block body %}
-    <h1>Sites</h1>
+{% block main %}
+	<h1>Sites</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>NoSite</th>
-                <td>{{ site.noSite }}</td>
-            </tr>
-            <tr>
-                <th>NomSite</th>
-                <td>{{ site.nomSite }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>NoSite</th>
+				<td>{{ site.noSite }}</td>
+			</tr>
+			<tr>
+				<th>NomSite</th>
+				<td>{{ site.nomSite }}</td>
+			</tr>
+		</tbody>
+	</table>
 
-    <a href="{{ path('app_sites_index') }}">back to list</a>
+	<div class="row">	
+	{{ include('sites/_delete_form.html.twig') }}
+	<span class="col"></span>	
+	<a class="col waves-effect waves-light green lighten-1 btn" href="{{ path('app_sites_edit', {'noSite': site.noSite}) }}">Modifier</a>
+	<span class="col"></span>
+    <a class="col waves-effect waves-light green lighten-1 btn" href="{{ path('app_sites_index') }}">Retour</a>
+	</div>
 
-    <a href="{{ path('app_sites_edit', {'noSite': site.noSite}) }}">edit</a>
-
-    {{ include('sites/_delete_form.html.twig') }}
 {% endblock %}
