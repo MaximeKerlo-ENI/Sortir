@@ -49,7 +49,6 @@ class SortiesType extends AbstractType
                 "choice_label" => function ($lieuxNoLieu) {
                     return $lieuxNoLieu->getNomLieu();
                 },
-                'mapped' => false
             ])
         ;
     }

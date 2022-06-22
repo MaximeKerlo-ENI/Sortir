@@ -13,10 +13,28 @@ $('#nomInput').keyup(function(){
   }
 });
 
-$.expr[":"].contains = $.expr.createPseudo(function(arg) {
-  return function( elem ) {
-    return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
-  };
+// Recherche etat Passée
+$(function() {
+  $('input[type="checkbox"]').change(function() {
+    // We check if one or more checkboxes are selected
+    // If one or more is selected, we perform filtering
+    if($('input[type="checkbox"]:checked').length > 0) {
+      // Get values all checked boxes
+      var vals = $('input[type="checkbox"]:checked').map(function() {
+        return this.value;
+      }).get();
+
+      // Here we do two things to table rows
+      // 1. We hide all
+      // 2. Then we filter, show those whose value in first <td> matches checkbox value
+      $('table tbody tr').hide().filter(function() {
+        return vals.indexOf($(this).find('td:nth-child(5)').text()) > -1;
+      }).show();
+    } else {
+      // Show all
+      $('table tbody tr').show();
+    }
+  });
 });
 
 function filterRows() {

@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 class ApiController extends AbstractController
 {
     /**
-     * @Route("/api/{id}", name="app_api", methods={"GET"})
+     * @Route("/api/{id}", name="app_api", methods={"GET","POST"})
      */
     public function index(LieuxRepository $lieuRepository, NormalizerInterface $normalizer, SerializerInterface $serializer, $id): Response
     {
