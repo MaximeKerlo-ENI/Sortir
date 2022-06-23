@@ -22,48 +22,73 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 class MainController extends AbstractController
-{      
-        /**
-        * @Route("/",name="app_accueil")
-        */
-        public function liste(SortiesRepository $sr, SitesRepository $siteR, EtatsRepository $er, ParticipantsRepository $pr, InscriptionsRepository $ir, Methodes $methodes):Response{
-            
+{
+    /**
+     * @Route("/",name="app_accueil")
+     */
+    public function liste(SortiesRepository $sr, SitesRepository $siteR, EtatsRepository $er, ParticipantsRepository $pr, InscriptionsRepository $ir, Methodes $methodes): Response
+    {
 
-            /** @var \App\Entity\Participants $user */
-            $user = $this->getUser();
-            $no = $user->getNoParticipant();
-            $listesorties = $sr->findAll();
-            $tab = array();
-            foreach ($listesorties as $ele) {
-                $participants = $methodes->participants($ele->getNoSortie(), $ir);
-                $boutonValue = $methodes->participe($ele->getNoSortie(), $no, $ir);
-                $sortie = array(
-                    "nom" => $ele->getNom(),
-                    "datedebut" => $ele->getDatedebut(),
-                    "datecloture" => $ele->getDatecloture(),
-                    "nbparticipants" => $participants,
-                    "nbinscriptionsmax" => $ele->getNbinscriptionsmax(),
-                    "etatsnoetats" => $ele->getEtatsNoEtat()->getNoEtat(),
-                    "organisateur" => $ele->getOrganisateur()->getNom(),
-                    "nosortie" => $ele->getNoSortie(),
 
-                    "bouton" => $boutonValue
-                );
+        /** @var \App\Entity\Participants $user */
+        $user = $this->getUser();
+            if ($user != null) {
+                $no = $user->getNoParticipant();
+                $listesorties = $sr->findAll();
+                $tab = array();
+                foreach ($listesorties as $ele) {
+                    $participants = $methodes->participants($ele->getNoSortie(), $ir);
+                    $boutonValue = $methodes->participe($ele->getNoSortie(), $no, $ir);
+                    $sortie = array(
+                        "nom" => $ele->getNom(),
+                        "datedebut" => $ele->getDatedebut(),
+                        "datecloture" => $ele->getDatecloture(),
+                        "nbparticipants" => $participants,
+                        "nbinscriptionsmax" => $ele->getNbinscriptionsmax(),
+                        "etatsnoetats" => $ele->getEtatsNoEtat()->getNoEtat(),
+                        "organisateur" => $ele->getOrganisateur()->getNom(),
+                        "nosortie" => $ele->getNoSortie(),
+                        "bouton" => $boutonValue
+                    );
+                    array_push($tab,$sortie);
+                }
 
-                $tab[]= $sortie;
+                // $tab[] = $sortie;
+                
+            } else {
+                $listesorties = $sr->findAll();
+                $tab = array();
+                foreach ($listesorties as $ele) {
+                    $participants = $methodes->participants($ele->getNoSortie(), $ir);
+                    // $boutonValue = $methodes->participe($ele->getNoSortie(), $no, $ir);
+                    $sortie = array(
+                        "nom" => $ele->getNom(),
+                        "datedebut" => $ele->getDatedebut(),
+                        "datecloture" => $ele->getDatecloture(),
+                        "nbparticipants" => $participants,
+                        "nbinscriptionsmax" => $ele->getNbinscriptionsmax(),
+                        "etatsnoetats" => $ele->getEtatsNoEtat()->getNoEtat(),
+                        "organisateur" => $ele->getOrganisateur()->getNom(),
+                        "nosortie" => $ele->getNoSortie(),
+
+                        "bouton" => false
+                    );
+                }
+
+                $tab[] = $sortie;
                 // array_push($tab,$sortie);
- 
             }
+        
 
-            return $this->render("sorties/liste.html.twig",
-            ['inscriptions'=>$ir->findAll(),
-             'sorty'=>$sr->findAll(),
-             "etats"=>$er->findAll(),
-             "organisateur"=>$pr->findAll(),
-             "sites"=>$siteR->findAll(),
-             "tab" =>$tab
-            ]);
-             
-        }
+        return $this->render("sorties/liste.html.twig",
+            [   
+                'inscriptions' => $ir->findAll(),
+                'sorty' => $sr->findAll(),
+                "etats" => $er->findAll(),
+                "organisateur" => $pr->findAll(),
+                "sites" => $siteR->findAll(),
+                "tab" => $tab
+            ]
+        );
     }
-
+}

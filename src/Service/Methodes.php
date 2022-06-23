@@ -9,18 +9,16 @@ use App\Repository\InscriptionsRepository;
 class Methodes
 {
     public function participe(?int $sortieId, ?int $participantId, InscriptionsRepository $ir): bool
-    {  
+    {   $var = false;
         $inscriptions = $ir->findAll();
         foreach ($inscriptions as $inscription) {
-            if( $inscription->getParticipantsNoParticipant()->getNoParticipant() == $participantId && $inscription->getSortiesNoSortie() == $sortieId) {
-                return true;
-            } else {
-                return false;
-            }
-            
+            $nopa = $inscription->getParticipantsNoParticipant()->getNoParticipant();
+            $noso = $inscription->getSortiesNoSortie()->getNoSortie();
+            if($nopa == $participantId && $noso == $sortieId) {
+             $var = true;  
+            }  
         }
-
-        return false;
+        return $var;
        
     }
 

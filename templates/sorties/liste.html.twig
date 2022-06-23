@@ -29,6 +29,7 @@ Accueil
         <input type="date" id="dateCloture">
     </div>
     <div class=" row col s4 left-align" id="bottom">
+        {% if app.user %}
         <p><label>
                 <input type="checkbox" class="filled-in" value="{{ app.user.nom }}"/>
                 <span>Sorties dont je suis l'organisateur/trice</span>
@@ -41,6 +42,7 @@ Accueil
                 <input type="checkbox" class="filled-in" />
                 <span>Sorties auxquelles je ne suis pas inscrit/e</span>
             </label></p>
+            {% endif %}
         <p><label>
                 <input type="checkbox" class="filled-in"  value="Passée"/>
                 <span>Sorties passées</span>
@@ -61,9 +63,10 @@ Accueil
             </tr>
         </thead>
         <tbody>
-            {% for sortie in tab %}
+            {% for sortie in tab %}  
+            {# <p>{{ dump(sortie) }}</p> #}
             <tr>
-                <td>{{ sortie.nom }}</td>
+                <td>{{ sortie.nom }}{{ sortie.bouton }}</td>
                 <td>{{ sortie.datedebut|date('d-m-Y H:i:s') }}</td>
                 <td>{{ sortie.datecloture|date('d-m-Y') }}</td>
                 <td>#{{ sortie.nbparticipants }} / {{ sortie.nbinscriptionsmax }}</td>
