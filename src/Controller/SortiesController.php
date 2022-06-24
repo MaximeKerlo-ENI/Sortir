@@ -9,6 +9,7 @@ use App\Form\SortiesType;
 use App\Repository\LieuxRepository;
 
 use App\Repository\EtatsRepository;
+use App\Repository\InscriptionsRepository;
 use App\Repository\ParticipantsRepository;
 
 use App\Repository\SortiesRepository;
@@ -38,16 +39,16 @@ class SortiesController extends AbstractController
      */
     public function new(Request $request, SortiesRepository $sortiesRepository, EtatsRepository $er): Response
     {
-        $etats = $er->findAll();       
+        $etats = $er->findAll();
         $sorty = new Sorties();
         $form = $this->createForm(SortiesType::class, $sorty);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if(isset($_POST['create'])){
+            if (isset($_POST['create'])) {
                 $sorty->setEtatsNoEtat($etats[0]);
             }
-            if(isset($_POST['open'])){
+            if (isset($_POST['open'])) {
                 $sorty->setEtatsNoEtat($etats[1]);
             }
             $sorty->setOrganisateur($this->getUser());
@@ -63,14 +64,19 @@ class SortiesController extends AbstractController
     }
 
     /**
-     * @Route("/{noSortie}", name="app_sorties_show", methods={"GET"})
+     * @Route("/{noSortie}", name="app_sorties_show", methods={"GET", "POST"})
      */
-    public function show(Sorties $sorty): Response
+    public function show(Sorties $sorty, InscriptionsRepository $ir): Response
     {
+        $noSortie = $sorty->getNoSortie();
+        $liste = $ir->findBySortie($noSortie);
+
         return $this->render('sorties/show.html.twig', [
+            'liste' => $liste,
             'sorty' => $sorty,
         ]);
     }
+
 
     /**
      * @Route("/{noSortie}/edit", name="app_sorties_edit", methods={"GET", "POST"})
@@ -97,7 +103,7 @@ class SortiesController extends AbstractController
      */
     public function delete(Request $request, Sorties $sorty, SortiesRepository $sortiesRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$sorty->getNoSortie(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $sorty->getNoSortie(), $request->request->get('_token'))) {
             $sortiesRepository->remove($sorty, true);
         }
 

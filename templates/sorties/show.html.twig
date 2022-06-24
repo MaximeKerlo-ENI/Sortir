@@ -3,52 +3,114 @@
 {% block title %}Sorties{% endblock %}
 
 {% block main %}
-    <h1>Sorties</h1>
+<h1>Sorties</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Numéro</th>
-                <td>{{ sorty.noSortie }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ sorty.nom }}</td>
-            </tr>
-            <tr>
-                <th>Date début</th>
-                <td>{{ sorty.datedebut ? sorty.datedebut|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Durée</th>
-                <td>{{ sorty.duree }}</td>
-            </tr>
-            <tr>
-                <th>Date cloture</th>
-                <td>{{ sorty.datecloture ? sorty.datecloture|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Nombre maximum d'inscriptions</th>
-                <td>{{ sorty.nbinscriptionsmax }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ sorty.descriptioninfos }}</td>
-            </tr>
-            <tr>
-                <th>Photo</th>
-                <td>{{ sorty.urlphoto }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="row">
-        <a class="waves-effect waves-light green lighten-1 btn col" href="{{ path('app_accueil') }}">Retour accueil</a>
+<table class="table highlight">
+    <tbody>
+        <tr>
+            <th>Numéro</th>
+            <td>{{ sorty.noSortie }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ sorty.nom }}</td>
+        </tr>
+        <tr>
+            <th>Date début</th>
+            <td>{{ sorty.datedebut ? sorty.datedebut|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Durée</th>
+            <td>{{ sorty.duree }}</td>
+        </tr>
+        <tr>
+            <th>Date cloture</th>
+            <td>{{ sorty.datecloture ? sorty.datecloture|date('Y-m-d H:i:s') :
+                '' }}</td>
+        </tr>
+        <tr>
+            <th>Nombre maximum d'inscriptions</th>
+            <td>{{ sorty.nbinscriptionsmax }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ sorty.descriptioninfos }}</td>
+        </tr>
+        <tr>
+            <th>Photo</th>
+            <td>{{ sorty.urlphoto }}</td>
+        </tr>
+        <tr>
+            <th>Ville organisatrice</th>
+            <td>{{ sorty.organisateur.sitesNoSite.nomSite }}</td>
+        </tr>
+        <tr>
+            <th>Lieu</th>
+            <td>{{ sorty.lieuxNoLieu.nomLieu }}</td>
+        </tr>
+        <tr>
+            <th>Rue</th>
+            <td>{{ sorty.lieuxNoLieu.rue }}</td>
+        </tr>
+        <tr>
+            <th>Code postal</th>
+            <td>{{ sorty.lieuxNoLieu.villesNoVille.codePostal }}</td>
+        </tr>
+        <tr>
+            <th>Latitude</th>
+            <td>{{ sorty.lieuxNoLieu.latitude }}</td>
+        </tr>
+        <tr>
+            <th>Longitude</th>
+            <td>{{ sorty.lieuxNoLieu.longitude }}</td>
+        </tr>
+    </tbody>
+</table>
 
-        <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_sorties_edit', {'noSortie': sorty.noSortie}) }}">Modifier</a>
+<h1>Inscrits</h1>
 
-        <a class="waves-effect waves-light green lighten-1 btn" href="{{ path('app_sorties_cancel', {'noSortie': sorty.noSortie}) }}">Annuler la sortie</a>
+<a class="waves-effect waves-light green lighten-1 btn"
+    href="{{path('app_inscription', {'noSortie': sorty.noSortie, 'noParticipant': app.user.noParticipant}) }}">
+    S'inscrire
+</a>
+<a class="waves-effect waves-light green lighten-1 btn" href="{{
+        path('app_inscription_delete', {'noSortie': sorty.noSortie, 'noParticipant': app.user.noParticipant}) }}">
+    Se désister
+</a>
 
-        {{ include('sorties/_delete_form.html.twig') }}
-    </div>
-    
+
+
+
+<table class="table highlight">
+    <thead>
+        <tr>
+            <th>Pseudo</th>
+            <th>Nom</th>
+            <th>Date Inscription</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ele in liste %}
+        <tr>
+            <td>{{ ele.participantsNoParticipant.pseudo }}</td>
+            <td>{{ ele.participantsNoParticipant.nom }}</td>
+            <td>{{ ele.dateInscription ? ele.dateInscription|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="row">
+    <a class="waves-effect waves-light green lighten-1 btn col" href="{{
+        path('app_accueil') }}">Retour accueil</a>
+    {% if app.user.noParticipant == sorty.organisateur.noParticipant %}
+    <a class="waves-effect waves-light green lighten-1 btn" href="{{
+        path('app_sorties_edit', {'noSortie': sorty.noSortie}) }}">Modifier</a>
+    <a class="waves-effect waves-light green lighten-1 btn" href="{{
+        path('app_sorties_cancel', {'noSortie': sorty.noSortie}) }}">Annuler la
+        sortie</a>
+    {{ include('sorties/_delete_form.html.twig') }}
+    {% endif %}
+</div>
+
 {% endblock %}
