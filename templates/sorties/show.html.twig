@@ -45,6 +45,18 @@
 
 <h1>Inscrits</h1>
 
+<a class="waves-effect waves-light green lighten-1 btn"
+    href="{{path('app_inscription', {'noSortie': sorty.noSortie, 'noParticipant': app.user.noParticipant}) }}">
+    S'inscrire
+</a>
+<a class="waves-effect waves-light green lighten-1 btn" href="{{
+        path('app_inscription_delete', {'noSortie': sorty.noSortie, 'noParticipant': app.user.noParticipant}) }}">
+    Se désister
+</a>
+
+
+
+
 <table class="table highlight">
     <thead>
         <tr>
