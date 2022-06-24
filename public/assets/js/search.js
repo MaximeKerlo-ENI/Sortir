@@ -61,3 +61,16 @@ function filterRows() {
 
 $('#dateDebut').on("change", filterRows);
 $('#dateCloture').on("change", filterRows);
+
+$('#siteInput').change(function() {
+  var curr = $(this).val();
+  $("#tableSorties tbody tr td:nth-child()").each(function(){
+      if(curr.indexOf($(this).text().substr(0,1)) != -1){  //Check if first letter exists in the drop down value
+           $(this).parent().show();
+
+      }else{
+           $(this).parent().hide();
+      }
+  });
+
+});
