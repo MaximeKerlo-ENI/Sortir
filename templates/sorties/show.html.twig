@@ -40,6 +40,30 @@
             <th>Photo</th>
             <td>{{ sorty.urlphoto }}</td>
         </tr>
+        <tr>
+            <th>Ville organisatrice</th>
+            <td>{{ sorty.organisateur.sitesNoSite.nomSite }}</td>
+        </tr>
+        <tr>
+            <th>Lieu</th>
+            <td>{{ sorty.lieuxNoLieu.nomLieu }}</td>
+        </tr>
+        <tr>
+            <th>Rue</th>
+            <td>{{ sorty.lieuxNoLieu.rue }}</td>
+        </tr>
+        <tr>
+            <th>Code postal</th>
+            <td>{{ sorty.lieuxNoLieu.villesNoVille.codePostal }}</td>
+        </tr>
+        <tr>
+            <th>Latitude</th>
+            <td>{{ sorty.lieuxNoLieu.latitude }}</td>
+        </tr>
+        <tr>
+            <th>Longitude</th>
+            <td>{{ sorty.lieuxNoLieu.longitude }}</td>
+        </tr>
     </tbody>
 </table>
 

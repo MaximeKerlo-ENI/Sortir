@@ -33,6 +33,7 @@
     grid-area: 7 / 1 / 8 / 5;
   }
 </style>
+
 <div class="row">
   <div class="col s6">
     {{ form_row(sortieForm.nom) }}
@@ -47,14 +48,14 @@
     <div class="parent">
       <div class="div1" id="maDiv1"><label for="monParagraphe">Ville organisatrice</label><p id="monParagraphe">{{ app.user.sitesNoSite.nomSite }}</p></div>
       <div class="div2" id="maDiv2">{{ form_row(sortieForm.villesNoVilles, { 'id': 'select_ville'}) }}</div>
-      <div class="div3" id="maDiv3">{{ form_row(sortieForm.lieuxNoLieu, { 'id': 'select_lieu'}) }}</div>
+      <div class="div3" id="maDiv3">{{ form_row(sortieForm.lieuxNoLieu, { 'id': 'select_lieu'}) }}</div> 
       <div class="div4" id="maDiv4">
         <a href="{{ path('app_lieux_new') }}" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
       </div>
-      <div class="div5" id="maDiv5"><label for=""></label></div>
-      <div class="div6" id="maDiv6"></div>
-      <div class="div7" id="maDiv7"></div> 
-      <div class="div8" id="maDiv8"></div>
+      <div class="div5" id="maDiv5"><label for="maDiv5">Rue </label></div>
+      <div class="div6" id="maDiv6"><label for="maDiv6">Code postal </label></div>
+      <div class="div7" id="maDiv7"><label for="maDiv7">Latitude </label></div> 
+      <div class="div8" id="maDiv8"><label for="maDiv8">Longitude </label></div>
   </div>
 </div>
 

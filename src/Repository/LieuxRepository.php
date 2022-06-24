@@ -51,6 +51,18 @@ class LieuxRepository extends ServiceEntityRepository
        ;
     }
 
+    /**
+     * @return Lieux Returns an occuration of Lieux objects
+     */
+    public function findById($id): Lieux{
+        $queryBuilder = $this->createQueryBuilder("l");
+        $queryBuilder->andWhere("l.noLieu = :id");     
+        $query = $queryBuilder->getQuery();
+        $query->setParameter("id",$id);
+        return $query->getOneOrNullResult();
+       ;
+    }
+
 //    /**
 //     * @return Lieux[] Returns an array of Lieux objects
 //     */
